@@ -11,7 +11,9 @@ class SubCategoryController extends Controller
 {
     //
     public function Index(){
-        return view("admin.allsubcategory");
+        $subCats = Subcategory::all();
+
+        return view("admin.allsubcategory", compact('subCats'));
     }
 
     public function AddSubCategory(){
@@ -20,11 +22,12 @@ class SubCategoryController extends Controller
     }
 
     public function StoreSubCategory(Request $request){
+        
         $request->validate([
-            'subcategory_name' =>'required|unique:subcategories',
-            'catergory_id' => 'required'
+            'subcategory_name' =>'required|unique:subcategories,subcategory_name',
+            'category_id' => 'required'
         ]);
-
+        
         $category_id = $request->category_id;
 
         $category_name = Category::where('id', $category_id)->value('category_name');

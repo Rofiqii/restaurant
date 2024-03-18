@@ -20,16 +20,18 @@ All Sub Category - Single Ecom
               </tr>
             </thead>
             <tbody class="table-border-bottom-0">
+              @foreach($subCats as $subCat)
               <tr>
-                <td>1</td>
-                <td>Fan</td>
-                <td>Electronics</td>
-                <td>100</td>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $subCat->subcategory_name }}</td>
+                <td>{{ $subCat->category->category_name }}</td>
+                <td>{{ $subCat->product_count }}</td>
                 <td>
                     <a href="" class="btn btn-primary">Edit</a>
                     <a href="" class="btn btn-warning">Delete</a>
                 </td>
               </tr>
+              @endforeach
             </tbody>
           </table>
         </div>
