@@ -45,6 +45,9 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
         Route::get('/admin/all-subcategory', 'Index')->name('allsubcategory');
         Route::get('/admin/add-subcategory', 'AddSubCategory')->name('addsubcategory');
         Route::post('/admin/store-subcategory', 'StoreSubCategory')->name('storesubcategory');
+        Route::get('/admin/edit-subcategory/{subcategory}','EditSubCat')->name('editsubcat');
+        Route::get('/admin/delete-subcategory/{subcategory}','DeleteSubCat')->name('deletesubcat');
+        Route::post('/admin/update-subcategory', 'UpdateSubcat')->name('updatesubcat');
     });
 
     Route::controller(ProductController::class)->group(function () {

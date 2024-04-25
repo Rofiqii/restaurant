@@ -7,7 +7,13 @@ All Sub Category - Single Ecom
     <h4 class="py-3 mb-4"><span class="text-muted fw-light">Page/</span> All Sub Category</h4>
     
     <div class="card">
-        <h5 class="card-header">Available Sub Category Information</h5>
+        <h5 class="card-header">Available Sub Category Information</h5> 
+        @if(session()->has('message'))
+            <div class="alert alert-success">
+                {{ session()->get('message') }}
+            </div>
+
+        @endif
         <div class="table-responsive text-nowrap">
           <table class="table">
             <thead class="table-light">
@@ -22,13 +28,14 @@ All Sub Category - Single Ecom
             <tbody class="table-border-bottom-0">
               @foreach($subCats as $subCat)
               <tr>
-                <td>{{ $loop->iteration }}</td>
+                <!-- <td>{{ $loop->iteration }}</td> -->
+                <td>{{ $subCat->id}}</td>
                 <td>{{ $subCat->subcategory_name }}</td>
                 <td>{{ $subCat->category->category_name }}</td>
                 <td>{{ $subCat->product_count }}</td>
                 <td>
-                    <a href="" class="btn btn-primary">Edit</a>
-                    <a href="" class="btn btn-warning">Delete</a>
+                    <a href="{{route('editsubcat', $subCat->id)}}" class="btn btn-primary">Edit</a>
+                    <a href="{{route('deletesubcat', $subCat->id)}}" class="btn btn-warning">Delete</a>
                 </td>
               </tr>
               @endforeach

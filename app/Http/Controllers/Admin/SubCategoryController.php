@@ -44,4 +44,32 @@ class SubCategoryController extends Controller
         return redirect()->route('allsubcategory')->with('message', 'Sub Kategori berhasil ditambah!');
 
     }
+
+    public function EditSubCat(Subcategory $subcategory){
+        return view('admin.editsubcat', [
+            'subcatinfo' => $subcategory,
+        ]);
+    }
+
+    public function UpdateSubCat(Request $request){
+        $request->validate([
+            'subcategory_name' =>'required|unique:subcategories',
+        ]);
+
+
+        $subcatid = $request->subcatid;
+
+        Subcategory::findOrFail($subcatid)->update([
+            'subcategory_name' => $request->subcategory_name,
+            'slug' => strtolower(str_replace(' ','-', $request->subcategory_name)),
+        ]);
+
+        return redirect()->route('allsubcategory')->with('message', 'Sub Kategori berhasil diupdate!');
+    }
+
+    public function DeleteSubCat(Subcategory $subcategory)
+    {
+        $subcategory->delete();
+        return redirect()->route('allsubcategory')->with('message', 'Sub Kategori berhasil dihapus');
+    }
 }
