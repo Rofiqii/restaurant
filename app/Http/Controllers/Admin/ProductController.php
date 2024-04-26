@@ -63,8 +63,29 @@ class ProductController extends Controller
         Category::where('id', $category_id)->increment('product_count', 1);
         Subcategory::where('id', $subcategory_id)->increment('product_count', 1);
 
-        return redirect()->route('allproducts')->with('message', 'Sub Produk berhasil ditambah!');
+        return redirect()->route('allproducts')->with('message', 'Produk berhasil ditambah!');
 
 
+    }
+
+    public function EditProductImg($id){
+        $productinfo = Product::findOrFail($id);
+        return view('admin.editproductimg', compact('productinfo'));
+    }
+
+    public function UpdateProductImg(Request $request){
+        $request->validate([
+            'product_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+        $id = $request->id;
+        $image = $request->file('product_img');
+        $img_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+        $request->product_img->move(public_path('upload'),$img_name);
+        $img_url = 'upload/' . $img_name;
+
+        Product::findOrFail($id)->update([
+            'product_img' => $img_url,
+        ]);
+        return redirect()->route('allproducts')->with('message', 'Update Foto Produk berhasil!');
     }
 }
