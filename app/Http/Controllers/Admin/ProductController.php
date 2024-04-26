@@ -12,7 +12,8 @@ class ProductController extends Controller
 {
     //
     public function Index(){
-        return view("admin.allproduct");
+        $products = Product::latest()->get();
+        return view("admin.allproduct", compact('products'));
     }
 
     public function AddProduct(){
@@ -53,7 +54,7 @@ class ProductController extends Controller
             'product_subcategory_name' => $subcategory_name,
             'product_category_id' => $request->product_category_id,
             'product_subcategory_id' => $request->product_subcategory_id,
-            'product_img' => $request->product_img,
+            'product_img' => $img_url,
             'quantity' => $request->quantity,
             'slug' => strtolower(str_replace(' ','-', $request->product_name)),
 
