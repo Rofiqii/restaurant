@@ -51,11 +51,11 @@ Add Product - Single Ecom
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label" for="basic-default-name">Select Category</label>
                 <div class="col-sm-10">
-                    <select class="form-select" id="category" name="category" aria-label="Default select example">
-                        <option selected>Open this select menu</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select class="form-select" id="product_category_id" name="product_category_id" aria-label="Default select example">
+                        <option selected>Select Product Category</option>
+                        @foreach ($categories as $category)
+                        <option value="{{$category->id}}">{{$category->category_name}}</option>
+                        @endforeach
                       </select>
                 </div>
               </div>
@@ -63,11 +63,11 @@ Add Product - Single Ecom
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label" for="basic-default-name">Select Sub Category</label>
                 <div class="col-sm-10">
-                    <select class="form-select" id="category" name="category" aria-label="Default select example">
-                        <option selected>Open this select menu</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select class="form-select" id="product_subcategory_id" name="product_subcategory_id" aria-label="Default select example">
+                        <option selected>Select Product Subategory</option>
+                        @foreach ($subcategories as $subcategory)
+                        <option value="{{$subcategory->id}}">{{$subcategory->category_name}}</option>
+                        @endforeach
                       </select>
                 </div>
               </div>
@@ -75,7 +75,7 @@ Add Product - Single Ecom
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label" for="basic-default-name">Upload Product Image</label>
                 <div class="col-sm-10">
-                    <input class="form-control" type="file" id="formFile" />
+                    <input class="form-control" type="file" id="product_img" name="product_img"/>
                 </div>
               </div>
 
