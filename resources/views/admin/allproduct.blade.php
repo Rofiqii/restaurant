@@ -5,7 +5,12 @@ All Product - Single Ecom
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="py-3 mb-4"><span class="text-muted fw-light">Page/</span> All Products</h4>
+    @if(session()->has('message'))
+    <div class="alert alert-success">
+        {{ session()->get('message') }}
+    </div>
 
+@endif
     <div class="card">
         <h5 class="card-header">Available All Product Information</h5>
         <div class="table-responsive text-nowrap">
