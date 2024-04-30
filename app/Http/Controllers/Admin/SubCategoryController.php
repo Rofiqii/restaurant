@@ -22,12 +22,12 @@ class SubCategoryController extends Controller
     }
 
     public function StoreSubCategory(Request $request){
-        
+
         $request->validate([
             'subcategory_name' =>'required|unique:subcategories,subcategory_name',
             'category_id' => 'required'
         ]);
-        
+
         $category_id = $request->category_id;
 
         $category_name = Category::where('id', $category_id)->value('category_name');
@@ -67,9 +67,13 @@ class SubCategoryController extends Controller
         return redirect()->route('allsubcategory')->with('message', 'Sub Kategori berhasil diupdate!');
     }
 
-    public function DeleteSubCat(Subcategory $subcategory)
+    public function DeleteSubCat(Subcategory $id)
     {
-        $subcategory->delete();
+        $cat_id= Subcategory::where('id', $id)->value('category_id');
+        Subcategory::findOrFail($id)->delete();
+
+        Category::where('id', $cat_id)->decrement('subcategory_count', 1);
+        // $subcategory->delete();
         return redirect()->route('allsubcategory')->with('message', 'Sub Kategori berhasil dihapus');
     }
 }

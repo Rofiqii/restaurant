@@ -21,7 +21,7 @@ Edit Product Image- Single Ecom
                 </div>
               </div>
 
-              <input type="hidden" value="{{$productinfo->id}}">
+              <input type="hidden" value="{{$productinfo->id}}" name="id">
 
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label" for="basic-default-name">Upload New Product Image</label>

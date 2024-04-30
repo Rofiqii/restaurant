@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SubCategoryController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +21,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('user_template.php.layouts.template');
+});
+
+Route::controller(HomeController::class)->group(function (){
+    Route::get('/', 'Index')->name('Home');
 });
 
 Route::get('/dashboard', function () {
@@ -45,8 +50,8 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
         Route::get('/admin/all-subcategory', 'Index')->name('allsubcategory');
         Route::get('/admin/add-subcategory', 'AddSubCategory')->name('addsubcategory');
         Route::post('/admin/store-subcategory', 'StoreSubCategory')->name('storesubcategory');
-        Route::get('/admin/edit-subcategory/{subcategory}','EditSubCat')->name('editsubcat');
-        Route::get('/admin/delete-subcategory/{subcategory}','DeleteSubCat')->name('deletesubcat');
+        Route::get('/admin/edit-subcategory/{id}','EditSubCat')->name('editsubcat');
+        Route::get('/admin/delete-subcategory/{id}','DeleteSubCat')->name('deletesubcat');
         Route::post('/admin/update-subcategory', 'UpdateSubcat')->name('updatesubcat');
     });
 
@@ -56,6 +61,9 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
         Route::post('/admin/store-product', 'StoreProduct')->name('storeproduct');
         Route::get('/admin/edit-product-img/{id}', 'EditProductImg')->name('editproductimg');
         Route::post('/admin/update-product-img', 'UpdateProductImg')->name('updateproductimg');
+        Route::get('/admin/edit-product/{id}', 'EditProduct')->name('editproduct');
+        Route::post('/admin/update-product', 'UpdateProduct')->name('updateproduct');
+        Route::get('/admin/delete-product/{id}', 'DeleteProduct')->name('deleteproduct');
     });
 
     Route::controller(OrderController::class)->group(function () {
