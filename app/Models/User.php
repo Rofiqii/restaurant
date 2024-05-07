@@ -42,7 +42,18 @@ class User extends Authenticatable implements LaratrustUser
      * @var array<string, string>
      */
     protected $casts = [
+        'id' => 'integer',
+        'user_id' => 'integer',
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function orderss()
+    {
+        return $this->hasMany(Order::class, 'user_id');
+    }
+    // public function users()
+    // {
+    //     return $this->belongsTo(Order::class,'user_id', 'id');
+    // }
 }
