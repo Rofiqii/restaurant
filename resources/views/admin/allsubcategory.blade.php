@@ -4,10 +4,10 @@ All Sub Category - Single Ecom
 @endsection
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Page/</span> All Sub Category</h4>
-    
+    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Halaman/</span> Semua Makanan</h4>
+
     <div class="card">
-        <h5 class="card-header">Available Sub Category Information</h5> 
+        <h5 class="card-header">Makanan Yang Tersedia</h5>
         @if(session()->has('message'))
             <div class="alert alert-success">
                 {{ session()->get('message') }}
@@ -19,9 +19,17 @@ All Sub Category - Single Ecom
             <thead class="table-light">
               <tr>
                 <th>Id</th>
-                <th>Sub Category Name</th>
-                <th>Category</th>
-                <th>Product</th>
+                <th>Nama Makanan</th>
+                <th>Deskripsi</th>
+                <th>Harga</th>
+                <th>Bintang</th>
+                <th>Orang</th>
+                <th>Orang Terpilih</th>
+                <th>Gambar</th>
+                <th>Lokasi</th>
+                <th>Dibuat Pada</th>
+                <th>Update Pada</th>
+                <th>Tipe Id</th>
                 <th>Actions</th>
               </tr>
             </thead>

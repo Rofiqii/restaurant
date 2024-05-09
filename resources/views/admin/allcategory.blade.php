@@ -4,9 +4,9 @@ All Category - Single Ecom
 @endsection
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Page/</span> All Category</h4>
+    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Halaman/</span> Semua Pesanan</h4>
     <div class="card">
-        <h5 class="card-header">Informasi Kategori Yang Tersedia</h5>
+        <h5 class="card-header">Informasi Pesanan Yang Tersedia</h5>
         @if(session()->has('message'))
             <div class="alert alert-success">
                 {{ session()->get('message') }}
@@ -18,8 +18,22 @@ All Category - Single Ecom
             <thead class="table-light">
               <tr>
                 <th>Id</th>
-                <th>Category Name</th>
-                <th>Sub Category</th>
+                <th>User Id</th>
+                <th>Jumlah Pesanan</th>
+                <th>Status Pembayaran</th>
+                <th>Referensi Transfer</th>
+                <th>Status Pesanan</th>
+                <th>Terkonfirmasi</th>
+                <th>Diterima</th>
+                <th>Dijadwalkan</th>
+                <th>Proses</th>
+                <th>Gagal</th>
+                <th>Amanat Pemesan</th>
+                <th>Tanggal Pesanan</th>
+                <th>Update Pesanan</th>
+                <th>OTP</th>
+                <th>Cancel</th>
+                <var></var>
                 <th>Slug</th>
                 <th>Actions</th>
               </tr>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\FoodsController;
 // use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Admin\ProductController;
@@ -47,6 +48,17 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
         Route::get('resources/admin/dashboard', 'Index')->name('admindashboard');
     });
 
+    Route::controller(FoodsController::class)->group(function () {
+        Route::get('/admin/all-food', 'Index')->name('allfoods');
+        Route::get('/admin/add-food', 'AddFood')->name('addfoods');
+        Route::post('/admin/store-food', 'StoreFood')->name('storefood');
+        Route::get('/admin/edit-food/{id}','EditFood')->name('editfood');
+        Route::get('/admin/edit-food-img/{id}', 'EditFoodImg')->name('editfoodimg');
+        Route::post('/admin/update-food-img', 'UpdateFoodImg')->name('updatefoodimg');
+        Route::post('/admin/update-food', 'UpdateFood')->name('updatefood');
+        Route::get('/admin/delete-food/{id}','DeleteFood')->name('deletefood');
+    });
+
     Route::controller(CategoryController::class)->group(function () {
         Route::get('/admin/all-category', 'Index')->name('allcategory');
         Route::get('/admin/add-category', 'AddCategory')->name('addcategory');
@@ -65,16 +77,16 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
         Route::post('/admin/update-subcategory', 'UpdateSubcat')->name('updatesubcat');
     });
 
-    Route::controller(ProductController::class)->group(function () {
-        Route::get('/admin/all-products', 'Index')->name('allproducts');
-        Route::get('/admin/add-product', 'AddProduct')->name('addproduct');
-        Route::post('/admin/store-product', 'StoreProduct')->name('storeproduct');
-        Route::get('/admin/edit-product-img/{id}', 'EditProductImg')->name('editproductimg');
-        Route::post('/admin/update-product-img', 'UpdateProductImg')->name('updateproductimg');
-        Route::get('/admin/edit-product/{id}', 'EditProduct')->name('editproduct');
-        Route::post('/admin/update-product', 'UpdateProduct')->name('updateproduct');
-        Route::get('/admin/delete-product/{id}', 'DeleteProduct')->name('deleteproduct');
-    });
+    // Route::controller(ProductController::class)->group(function () {
+    //     Route::get('/admin/all-products', 'Index')->name('allproducts');
+    //     Route::get('/admin/add-product', 'AddProduct')->name('addproduct');
+    //     Route::post('/admin/store-product', 'StoreProduct')->name('storeproduct');
+    //     Route::get('/admin/edit-product-img/{id}', 'EditProductImg')->name('editproductimg');
+    //     Route::post('/admin/update-product-img', 'UpdateProductImg')->name('updateproductimg');
+    //     Route::get('/admin/edit-product/{id}', 'EditProduct')->name('editproduct');
+    //     Route::post('/admin/update-product', 'UpdateProduct')->name('updateproduct');
+    //     Route::get('/admin/delete-product/{id}', 'DeleteProduct')->name('deleteproduct');
+    // });
 
     Route::controller(OrderController::class)->group(function () {
         Route::get('/admin/pending-order', 'Index')->name('pendingorder');

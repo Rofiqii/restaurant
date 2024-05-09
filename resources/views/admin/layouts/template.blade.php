@@ -218,13 +218,13 @@
               </li>
               <!-- Apps -->
                 <li class="menu-item">
-                  <a href="{{ route('addproduct') }}" class="menu-link">
+                  <a href="{{ route('addfoods') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-collection"></i>
                     <div data-i18n="Basic">Add Product</div>
                   </a>
                 </li>
               <li class="menu-item">
-                  <a href="{{ route('allproducts') }}" class="menu-link">
+                  <a href="{{ route('allfoods') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-collection"></i>
                     <div data-i18n="Basic">All Product</div>
                   </a>

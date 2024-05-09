@@ -7,6 +7,20 @@ class Food extends Model
 {
     // use DefaultDatetimeFormat;
     //table name
+    protected $fillable = [
+        'name',
+        'description',
+        'price',
+        'stars',
+        'people',
+        'selected_people',
+        'img',
+        'location',
+        'created_at',
+        'updated_at',
+        'type_id',
+    ];
+
     protected $table = 'foods';
 
     public function FoodType(){
