@@ -12,7 +12,7 @@
             <small class="text-muted float-end">Input Information</small>
           </div>
           <div class="card-body">
-            <form action="{{route('updatesubcat')}}" method="POST">
+            <form action="{{ route('updatesubcat', $subcatinfo->id) }}" method="POST">
             @csrf
             <input type="hidden" name="subcatid" value="{{$subcatinfo->id}}" id="subcatid">
               <div class="row mb-3">

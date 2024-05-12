@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FoodsController;
+use App\Http\Controllers\Admin\FoodTypeController;
 // use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Admin\ProductController;
@@ -59,14 +60,22 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
         Route::get('/admin/delete-food/{id}','DeleteFood')->name('deletefood');
     });
 
-    Route::controller(CategoryController::class)->group(function () {
-        Route::get('/admin/all-category', 'Index')->name('allcategory');
-        Route::get('/admin/add-category', 'AddCategory')->name('addcategory');
-        Route::post('/admin/store-category', 'StoreCategory')->name('storecategory');
-        Route::get('/admin/edit-category/{id}','EditCategory')->name('editcategory');
-        Route::post('/admin/update-category', 'UpdateCategory')->name('updatecategory');
-        Route::get('/admin/delete-category/{id}','DeleteCategory')->name('deletecategory');
+    Route::controller(FoodTypeController::class)->group(function () {
+        Route::get('/admin/all-food-type', 'Index')->name('allfoodtype');
+        Route::get('/admin/add-food-type', 'AddFoodType')->name('addfoodtype');
+        Route::post('/admin/store-food-type', 'StoreFoodType')->name('storefoodtype');
+        Route::get('/admin/edit-food-type/{id}','EditFoodType')->name('editfoodtype');
+        Route::post('/admin/update-food-type','UpdateFoodType')->name('updatefoodtype');
+        Route::get('/admin/delete-food-type/{id}','DeleteFoodType')->name('deletefoodtype');
     });
+    // Route::controller(CategoryController::class)->group(function () {
+    //     Route::get('/admin/all-category', 'Index')->name('allcategory');
+    //     Route::get('/admin/add-category', 'AddCategory')->name('addcategory');
+    //     Route::post('/admin/store-category', 'StoreCategory')->name('storecategory');
+    //     Route::get('/admin/edit-category/{id}','EditCategory')->name('editcategory');
+    //     Route::post('/admin/update-category', 'UpdateCategory')->name('updatecategory');
+    //     Route::get('/admin/delete-category/{id}','DeleteCategory')->name('deletecategory');
+    // });
 
     Route::controller(SubCategoryController::class)->group(function () {
         Route::get('/admin/all-subcategory', 'Index')->name('allsubcategory');
@@ -74,7 +83,7 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
         Route::post('/admin/store-subcategory', 'StoreSubCategory')->name('storesubcategory');
         Route::get('/admin/edit-subcategory/{id}','EditSubCat')->name('editsubcat');
         Route::get('/admin/delete-subcategory/{id}','DeleteSubCat')->name('deletesubcat');
-        Route::post('/admin/update-subcategory', 'UpdateSubcat')->name('updatesubcat');
+        Route::post('/admin/update-subcategory/{id}', 'UpdateSubcat')->name('updatesubcat');
     });
 
     // Route::controller(ProductController::class)->group(function () {

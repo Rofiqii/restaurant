@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 // use Encore\Admin\Controllers\AdminController;
 use App\Http\Controllers\Controller;
-use Encore\Admin\Form;
-use Encore\Admin\Grid;
-use Encore\Admin\Show;
+// use Encore\Admin\Form;
+// use Encore\Admin\Grid;
+// use Encore\Admin\Show;
 use Illuminate\Http\Request;
 use App\Models\Food;
 use App\Models\FoodType;
@@ -38,11 +38,6 @@ class FoodsController extends Controller
             'product_subcategory_id' =>'required',
             'product_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-
-        $image = $request->file('product_img');
-        $img_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        $request->product_img->move(public_path('upload'),$img_name);
-        $img_url = 'upload/' . $img_name;
 
         $category_id = $request->product_category_id;
         $subcategory_id = $request->product_subcategory_id;
@@ -98,9 +93,13 @@ class FoodsController extends Controller
 
 
     public function EditFood($id){
+        // $category_info = FoodType::findOrFail($id);
         $foodinfo = Food::findOrFail($id);
-
-        return view('admin.editfood', compact('foodinfo'));
+        $category_parent = $foodinfo->type_id;
+        $parent_title = FoodType::where('id',$category_parent)->first();
+        $typeid = FoodType::latest()->get();
+        return view('admin.editfood', compact('foodinfo', 'parent_title', 'typeid'));
+        // return view('admin.editfood', compact('foodinfo'));
     }
 
     public function UpdateFood(Request $request){
