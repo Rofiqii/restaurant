@@ -104,19 +104,19 @@
 
                                 <! -- Header -->
                                     <li class="menu-header small text-uppercase">
-                                        <span class="menu-header-text">Sub Category</span>
+                                        <span class="menu-header-text">Pengguna</span>
                                     </li>
                                     <!-- Apps -->
                                     <li class="menu-item">
-                                        <a href="{{ route('addsubcategory') }}" class="menu-link">
+                                        <a href="{{ route('add-users') }}" class="menu-link">
                                             <i class="menu-icon tf-icons bx bx-collection"></i>
-                                            <div data-i18n="Basic">Add Sub Category</div>
+                                            <div data-i18n="Basic">Tambah Pengguna</div>
                                         </a>
                                     </li>
                                     <li class="menu-item">
-                                        <a href="{{ route('allsubcategory') }}" class="menu-link">
+                                        <a href="{{ route('allusers') }}" class="menu-link">
                                             <i class="menu-icon tf-icons bx bx-collection"></i>
-                                            <div data-i18n="Basic">All Sub Category</div>
+                                            <div data-i18n="Basic">Semua Pengguna</div>
                                         </a>
                                     </li>
 
@@ -242,6 +242,7 @@
                                     <li>
                                         <a class="dropdown-item" href="javascript:void(0);">
                                             <i class="bx bx-power-off me-2"></i>
+                                            <a href="{{ route('logout') }}"></a>
                                             <span class="align-middle">Log Out</span>
                                         </a>
                                     </li>
