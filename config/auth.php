@@ -1,5 +1,5 @@
 <?php
-
+// use App/Models/User.php;
 return [
 
     /*
@@ -40,6 +40,12 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'api' => [
+            'driver' => 'passport',
+            'provider' => 'users',
+            // 'hash' => false,
+         ],
     ],
 
     /*

@@ -33,7 +33,7 @@ class AuthenticatedSessionController extends Controller
         $user = Auth::user();
 
         if($user->hasRole('admin'))
-            return to_route('allcategory');
+            return to_route('admindashboard');
 
         return to_route('dashboard');
     }
