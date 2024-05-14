@@ -4,11 +4,11 @@
 @endsection
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Halaman/</span> Edit Halaman</h4>
+    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Halaman/</span> Edit Detail Pengguna</h4>
     <div class="col-xxl">
         <div class="card mb-4">
           <div class="card-header d-flex align-items-center justify-content-between">
-            <h5 class="mb-0">Edit Halaman</h5>
+            <h5 class="mb-0">Edit Detail Pengguna</h5>
             <small class="text-muted float-end">Masukkan Informasi</small>
           </div>
           <div class="card-body">

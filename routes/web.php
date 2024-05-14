@@ -1,14 +1,14 @@
 <?php
 
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\FoodsController;
-use App\Http\Controllers\Admin\FoodTypeController;
+use App\Http\Controllers\Api\V1\CategoryController;
+use App\Http\Controllers\Api\V1\DashboardController;
+use App\Http\Controllers\Api\V1\FoodsController;
+use App\Http\Controllers\Api\V1\FoodTypeController;
 // use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Api\V1\ProductController;
-use App\Http\Controllers\Admin\SubCategoryController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Api\V1\SubCategoryController;
+use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -77,8 +77,8 @@ Route::get('resources/admin/logout', 'App\Http\Controllers\Auth\AuthenticatedSes
         Route::get('/admin/add-users', 'AddUsers')->name('add-users');
         Route::post('/admin/store-users', 'StoreUsers')->name('storeusers');
         Route::get('/admin/edit-users/{id}','EditUsers')->name('editusers');
-        Route::get('/admin/delete-users/{id}','DeleteUsers')->name('deleteusers');
         Route::post('/admin/update-users', 'UpdateUsers')->name('updateusers');
+        Route::get('/admin/delete-users/{id}','DeleteUsers')->name('deleteusers');
     });
     // Route::controller(CategoryController::class)->group(function () {
     //     Route::get('/admin/all-category', 'Index')->name('allcategory');
