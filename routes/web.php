@@ -77,7 +77,7 @@ Route::get('resources/admin/logout', 'App\Http\Controllers\Auth\AuthenticatedSes
         Route::get('/admin/add-users', 'AddUsers')->name('add-users');
         Route::post('/admin/store-users', 'StoreUsers')->name('storeusers');
         Route::get('/admin/edit-users/{id}','EditUsers')->name('editusers');
-        Route::post('/admin/update-users', 'UpdateUsers')->name('updateusers');
+        Route::post('/admin/update-users', 'UpdateUsers')->name('update-users');
         Route::get('/admin/delete-users/{id}','DeleteUsers')->name('deleteusers');
     });
     // Route::controller(CategoryController::class)->group(function () {

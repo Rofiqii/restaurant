@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 // use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
+
+use Illuminate\Validation\Rule;
 
 
 class UserController extends Controller
@@ -28,7 +31,7 @@ class UserController extends Controller
             'f_name' =>'required',
             'email' =>'required|unique:users,email',
             'phone' => 'required',
-            'password' => 'required',
+            'password' => 'required|min:6',
         ]);
 
         // $category_id = $request->category_id;
@@ -61,9 +64,11 @@ class UserController extends Controller
     public function UpdateUsers(Request $request){
         $request->validate([
             'f_name' =>'required',
-            'email' =>'required|unique:users,email',
+            'email' => [
+                'required',
+                Rule::unique('users')->ignore($request->id),],
             'phone' => 'required',
-            'password' => 'required',
+            'password' => 'required|min:6',
         ]);
 
 
@@ -74,8 +79,8 @@ class UserController extends Controller
             'f_name' => $request->f_name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'password' => $request->password,
-            'updated_at' => $mytime,
+            'password' => bcrypt($request->password),
+            // 'updated_at' => $mytime,
         ]);
 
         return redirect()->route('allusers')->with('message', 'Pengguna berhasil diupdate!');
