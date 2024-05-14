@@ -6,8 +6,9 @@ use App\Http\Controllers\Admin\FoodsController;
 use App\Http\Controllers\Admin\FoodTypeController;
 // use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Api\V1\OrderController;
-use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Api\V1\ProductController;
 use App\Http\Controllers\Admin\SubCategoryController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -47,7 +48,9 @@ Route::controller(HomeController::class)->group(function (){
 Route::middleware(['auth', 'role:admin'])->group(function(){
     Route::controller(DashboardController::class)->group(function () {
         Route::get('resources/admin/dashboard', 'Index')->name('admindashboard');
+
     });
+Route::get('resources/admin/logout', 'App\Http\Controllers\Auth\AuthenticatedSessionController@logout');
 
     Route::controller(FoodsController::class)->group(function () {
         Route::get('/admin/all-food', 'Index')->name('allfoods');
@@ -68,6 +71,15 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
         Route::post('/admin/update-food-type','UpdateFoodType')->name('updatefoodtype');
         Route::get('/admin/delete-food-type/{id}','DeleteFoodType')->name('deletefoodtype');
     });
+
+    Route::controller(UserController::class)->group(function () {
+        Route::get('/admin/all-users', 'Index')->name('allusers');
+        Route::get('/admin/add-users', 'AddUsers')->name('add-users');
+        Route::post('/admin/store-users', 'StoreUsers')->name('storeusers');
+        Route::get('/admin/edit-users/{id}','EditUsers')->name('editusers');
+        Route::get('/admin/delete-users/{id}','DeleteUsers')->name('deleteusers');
+        Route::post('/admin/update-users', 'UpdateUsers')->name('updateusers');
+    });
     // Route::controller(CategoryController::class)->group(function () {
     //     Route::get('/admin/all-category', 'Index')->name('allcategory');
     //     Route::get('/admin/add-category', 'AddCategory')->name('addcategory');
@@ -77,14 +89,16 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
     //     Route::get('/admin/delete-category/{id}','DeleteCategory')->name('deletecategory');
     // });
 
-    Route::controller(SubCategoryController::class)->group(function () {
-        Route::get('/admin/all-subcategory', 'Index')->name('allsubcategory');
-        Route::get('/admin/add-subcategory', 'AddSubCategory')->name('addsubcategory');
-        Route::post('/admin/store-subcategory', 'StoreSubCategory')->name('storesubcategory');
-        Route::get('/admin/edit-subcategory/{id}','EditSubCat')->name('editsubcat');
-        Route::get('/admin/delete-subcategory/{id}','DeleteSubCat')->name('deletesubcat');
-        Route::post('/admin/update-subcategory/{id}', 'UpdateSubcat')->name('updatesubcat');
-    });
+
+
+    // Route::controller(SubCategoryController::class)->group(function () {
+    //     Route::get('/admin/all-subcategory', 'Index')->name('allsubcategory');
+    //     Route::get('/admin/add-subcategory', 'AddSubCategory')->name('addsubcategory');
+    //     Route::post('/admin/store-subcategory', 'StoreSubCategory')->name('storesubcategory');
+    //     Route::get('/admin/edit-subcategory/{id}','EditSubCat')->name('editsubcat');
+    //     Route::get('/admin/delete-subcategory/{id}','DeleteSubCat')->name('deletesubcat');
+    //     Route::post('/admin/update-subcategory', 'UpdateSubcat')->name('updatesubcat');
+    // });
 
     // Route::controller(ProductController::class)->group(function () {
     //     Route::get('/admin/all-products', 'Index')->name('allproducts');
@@ -111,4 +125,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+
+
+// require __DIR__.'/auth.php';
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
