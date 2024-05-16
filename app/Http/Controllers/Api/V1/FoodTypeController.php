@@ -12,6 +12,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Tree;
+use Illuminate\Validation\Rule;
 
 class FoodTypeController extends Controller
 {
@@ -82,7 +83,7 @@ class FoodTypeController extends Controller
 
 
         $request->validate([
-            'title'=> 'required|unique:food_types',
+            'title' => ['required',Rule::unique('food_types')->ignore($request->id),],
             'parent_id' => 'required',
             'description' => 'required',
             'order' =>'required',

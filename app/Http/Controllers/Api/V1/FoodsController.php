@@ -112,6 +112,7 @@ class FoodsController extends Controller
             'stars' =>'required',
             'location' => 'required',
             'description' =>'required',
+            'type_id' => 'required'
         ]);
 
         $mytime = Carbon::now();
@@ -123,6 +124,7 @@ class FoodsController extends Controller
             'location' => $request->location,
             'description' => $request->description,
             'updated_at' => $mytime,
+            'type_id' => $request ->type_id,
 
         ]);
 
@@ -130,10 +132,7 @@ class FoodsController extends Controller
     }
 
     public function DeleteFood($id){
-        $cat_id=Food::where('id',$id)->value('type_id');
-        // $subcat_id=Product::where('id',$id)->value('product_subcategory_id');
         Food::findOrFail($id)->delete();
-
 
         return redirect()->route('allfoods')->with('message', 'Penghapusan Makanan Berhasil!');
     }
