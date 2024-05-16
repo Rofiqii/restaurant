@@ -12,6 +12,15 @@ Edit Makanan Image- Single Ecom
             <small class="text-muted float-end">Input Information</small>
           </div>
           <div class="card-body">
+            @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
             <form action="{{route('updatefoodimg')}}" method="POST" enctype="multipart/form-data">
               @csrf
               <div class="row mb-3">
@@ -22,11 +31,10 @@ Edit Makanan Image- Single Ecom
               </div>
 
               <input type="hidden" value="{{$foodinfo->id}}" name="id">
-
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label" for="basic-default-name">Upload Gambar Makanan Baru</label>
                 <div class="col-sm-10">
-                    <input class="form-control" type="file" id="food_img" name="food_img"/>
+                    <input class="form-control" type="file" id="img" name="img"/>
                 </div>
               </div>
 

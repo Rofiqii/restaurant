@@ -35,7 +35,7 @@
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label" for="basic-default-name">Induk Kategori</label>
                             <div class="col-sm-10">
-                                <select class="form-select" id="parent_id" name="parent_id"
+                                <select class="form-select" id="type_id" name="type_id"
                                     aria-label="Default select example">
                                     <option value="{{ $parent_title->id ?? '0' }}" selected>
                                         {{ $parent_title->title ?? 'ROOT' }}</option>
