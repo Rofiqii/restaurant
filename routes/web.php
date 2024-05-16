@@ -55,7 +55,7 @@ Route::get('resources/admin/logout', 'App\Http\Controllers\Auth\AuthenticatedSes
     Route::controller(FoodsController::class)->group(function () {
         Route::get('/admin/all-food', 'Index')->name('allfoods');
         Route::get('/admin/add-food', 'AddFood')->name('addfoods');
-        Route::post('/admin/store-food', 'StoreFood')->name('storefood');
+        Route::post('/admin/store-food', 'StoreFood')->name('store-food');
         Route::get('/admin/edit-food/{id}','EditFood')->name('editfood');
         Route::get('/admin/edit-food-img/{id}', 'EditFoodImg')->name('editfoodimg');
         Route::post('/admin/update-food-img', 'UpdateFoodImg')->name('updatefoodimg');
@@ -80,6 +80,7 @@ Route::get('resources/admin/logout', 'App\Http\Controllers\Auth\AuthenticatedSes
         Route::post('/admin/update-users', 'UpdateUsers')->name('update-users');
         Route::get('/admin/delete-users/{id}','DeleteUsers')->name('deleteusers');
     });
+
     // Route::controller(CategoryController::class)->group(function () {
     //     Route::get('/admin/all-category', 'Index')->name('allcategory');
     //     Route::get('/admin/add-category', 'AddCategory')->name('addcategory');

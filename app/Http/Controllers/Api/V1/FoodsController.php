@@ -8,8 +8,10 @@ use App\Http\Controllers\Controller;
 // use Encore\Admin\Grid;
 // use Encore\Admin\Show;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Models\Food;
 use App\Models\FoodType;
+use Illuminate\Validation\Rule;
 
 
 use Encore\Admin\Layout\Content;
@@ -24,46 +26,45 @@ class FoodsController extends Controller
 
     public function AddFood(){
         $foodtype = FoodType::latest()->get();
-        return view("admin.addfoods", compact("foodtype"));
+        $typeid = FoodType::latest()->get();
+        return view("admin.addfoods", compact("foodtype", "typeid"));
     }
 
     public function StoreFood(Request $request){
         $request->validate([
             'name' =>'required|unique:foods',
             'price' => 'required',
-            'quantity' =>'required',
-            'product_short_des' => 'required',
-            'product_long_des' =>'required',
-            'product_category_id' => 'required',
-            'product_subcategory_id' =>'required',
-            'product_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'location' =>'required',
+            'stars' => 'required',
+            'type_id' =>'required',
+            'description' =>'required',
+            'people' => 'required',
+            'selected_people' => 'required',
+            'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $category_id = $request->product_category_id;
-        $subcategory_id = $request->product_subcategory_id;
+        $image = $request->file('img');
+        $img_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+        $request->img->move(public_path('uploads/images'),$img_name);
+        $img_url = 'images/' . $img_name;
 
-        $category_name = Category::where('id', $category_id)->value('category_name');
-        $subcategory_name = Subcategory::where('id', $subcategory_id)->value('subcategory_name');
-
-        Product::insert([
-            'product_name' => $request->product_name,
-            'product_short_des' => $request->product_short_des,
-            'product_long_des' => $request->product_long_des,
+        $mytime = Carbon::now();
+        $mytime->toDateTimeString();
+        Food::insert([
+            'name' => $request->name,
             'price' => $request->price,
-            'product_category_name' => $category_name,
-            'product_subcategory_name' => $subcategory_name,
-            'product_category_id' => $request->product_category_id,
-            'product_subcategory_id' => $request->product_subcategory_id,
-            'product_img' => $img_url,
-            'quantity' => $request->quantity,
-            'slug' => strtolower(str_replace(' ','-', $request->product_name)),
-
+            'location' => $request->location,
+            'stars' => $request->stars,
+            'type_id' => $request-> type_id,
+            'description' => $request-> description,
+            'people' => $request-> people,
+            'selected_people' => $request-> selected_people,
+            'created_at' => $mytime,
+            'updated_at' => $mytime,
+            'img' => $img_url,
         ]);
 
-        Category::where('id', $category_id)->increment('product_count', 1);
-        Subcategory::where('id', $subcategory_id)->increment('product_count', 1);
-
-        return redirect()->route('allfood')->with('message', 'Produk berhasil ditambah!');
+        return redirect()->route('allfoods')->with('message', 'Makanan telah berhasil ditambah!');
 
 
     }
@@ -75,16 +76,16 @@ class FoodsController extends Controller
 
     public function UpdateFoodImg(Request $request){
         $request->validate([
-            'food_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         $id = $request->id;
-        $image = $request->file('food_img');
+        $image = $request->file('img');
         $img_name = hexdec(uniqid()).'.'. $image->getClientOriginalExtension();
-        $request->food_img->move(public_path('uploads/images'),$img_name);
-        $img_url = 'uploads/images' . $img_name;
+        $request->img->move(public_path('uploads/images'),$img_name);
+        $img_url = 'images/' . $img_name;
 
         Food::findOrFail($id)->update([
-            'food_img' => $img_url,
+            'img' => $img_url,
         ]);
 
         return redirect()->route('allfoods')->with('message', 'Update Foto Makanan Berhasil!');
@@ -93,33 +94,35 @@ class FoodsController extends Controller
 
 
     public function EditFood($id){
-        // $category_info = FoodType::findOrFail($id);
+
         $foodinfo = Food::findOrFail($id);
         $category_parent = $foodinfo->type_id;
         $parent_title = FoodType::where('id',$category_parent)->first();
         $typeid = FoodType::latest()->get();
+
         return view('admin.editfood', compact('foodinfo', 'parent_title', 'typeid'));
-        // return view('admin.editfood', compact('foodinfo'));
     }
 
     public function UpdateFood(Request $request){
         $foodid = $request->id;
 
         $request->validate([
-            'name' =>'required|unique:foods',
+            'name' => ['required',Rule::unique('foods')->ignore($request->id),],
             'price' => 'required',
             'stars' =>'required',
             'location' => 'required',
             'description' =>'required',
         ]);
 
+        $mytime = Carbon::now();
+        $mytime->toDateTimeString();
         Food::findOrFail($foodid)->update([
             'name' => $request->name,
             'price' => $request->price,
             'stars' => $request->stars,
             'location' => $request->location,
             'description' => $request->description,
-            // 'slug' => strtolower(str_replace(' ','-', $request->product_name)),
+            'updated_at' => $mytime,
 
         ]);
 

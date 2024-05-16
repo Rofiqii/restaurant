@@ -42,7 +42,7 @@
                                     <br>
                                     <a href="{{ route('editfoodimg', $food->id) }}" class="btn btn-primary">Update Image</a>
                                 </td>
-                                <td>{{ $food->description }}</td>
+                                <td>{{ Str::limit($food->description, 100) }}</td>
                                 <td>{{ $food->created_at }}</td>
                                 <td>{{ $food->updated_at }}</td>
                                 <td>

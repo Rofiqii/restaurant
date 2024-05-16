@@ -12,7 +12,16 @@
                     <small class="text-muted float-end">Input Information</small>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('storefood') }}" method="POST" enctype="multipart/form-data">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <form action="{{ route('store-food') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label" for="basic-default-name">Nama Makanan</label>
@@ -38,44 +47,53 @@
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label" for="basic-default-name">Harga Makanan</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" id="price" name="price" placeholder="12000" />
+                                <input type="number" class="form-control" id="price" name="price"
+                                    placeholder="12000" />
                             </div>
                         </div>
 
                         <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label" for="basic-default-name">Kuantitas</label>
+                            <label class="col-sm-2 col-form-label" for="basic-default-name">Asal Makanan</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" id="quantity" name="quantity"
-                                    placeholder="1000" />
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label" for="basic-default-name">Deskripsi</label>
-                            <div class="col-sm-10">
-                                <textarea class="form-control" name="description"
-                                id="description" cols="30" rows="10"></textarea>
+                                <input type="text" class="form-control" id="location" name="location"
+                                    placeholder="Jawa Barat" />
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label" for="basic-default-name">Bintang</label>
                             <div class="col-sm-10">
-                                <textarea class="form-control" name="stars" id="stars" cols="30" rows="10"></textarea>
+                                <input type="number" class="form-control" id="stars" name="stars" placeholder="" />
                             </div>
                         </div>
 
                         <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label" for="basic-default-name">Terpilih</label>
+                            <label class="col-sm-2 col-form-label" for="basic-default-name">Orang</label>
                             <div class="col-sm-10">
-                                <textarea class="form-control" name="selected" id="selected" cols="30" rows="10"></textarea>
+                                <input type="number" class="form-control" id="people" name="people" value="5"
+                                    placeholder="" />
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="basic-default-name">Orang Terpilih</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="selected_people" name="selected_people"
+                                    value="4" placeholder="" />
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label" for="basic-default-name">Upload Gambar</label>
                             <div class="col-sm-10">
-                                <input class="form-control" type="file" id="img" name="food_img" />
+                                <input class="form-control" type="file" id="img" name="img" />
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="basic-default-name">Deskripsi</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" name="description" id="description" cols="30" rows="10"></textarea>
                             </div>
                         </div>
 
