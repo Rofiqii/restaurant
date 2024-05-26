@@ -79,7 +79,17 @@ Route::get('resources/admin/logout', 'App\Http\Controllers\Auth\AuthenticatedSes
         Route::get('/admin/edit-users/{id}','EditUsers')->name('editusers');
         Route::post('/admin/update-users', 'UpdateUsers')->name('update-users');
         Route::get('/admin/delete-users/{id}','DeleteUsers')->name('deleteusers');
+        Route::post('/admin/logout', 'LogoutUsers')->name('logoutusers');
     });
+
+    Route::group(['prefix' => 'payment-mobile'], function () {
+        Route::get('/', 'PaymentController@payment')->name('payment-mobile');
+        Route::get('set-payment-method/{name}', 'PaymentController@set_payment_method')->name('set-payment-method');
+    });
+    Route::post('pay-paypal', 'PaypalPaymentController@payWithpaypal')->name('pay-paypal');
+    Route::get('paypal-status', 'PaypalPaymentController@getPaymentStatus')->name('paypal-status');
+    Route::get('payment-success', 'PaymentController@success')->name('payment-success');
+    Route::get('payment-fail', 'PaymentController@fail')->name('payment-fail');
 
     // Route::controller(CategoryController::class)->group(function () {
     //     Route::get('/admin/all-category', 'Index')->name('allcategory');

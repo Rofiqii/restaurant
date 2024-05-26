@@ -55,20 +55,17 @@ Route::group(['namespace' => 'Api\V1'], function () {
         Route::put('cm-firebase-token', 'CustomerController@update_cm_firebase_token');
         Route::get('suggested-foods', 'CustomerController@get_suggested_food');
 
-        Route::group(['prefix' => 'address'], function () {
-            Route::get('list', 'CustomerController@address_list');
-            Route::post('add', 'CustomerController@add_new_address');
-            Route::put('update/{id}', 'CustomerController@update_address');
-            Route::delete('delete', 'CustomerController@delete_address');
-        });
+        // Route::group(['prefix' => 'address'], function () {
+        //     Route::get('list', 'CustomerController@address_list');
+        //     Route::post('add', 'CustomerController@add_new_address');
+        //     Route::put('update/{id}', 'CustomerController@update_address');
+        //     Route::delete('delete', 'CustomerController@delete_address');
+        // });
         Route::group(['prefix' => 'order'], function () {
             Route::get('list', 'OrderController@get_order_list');
             Route::get('running-orders', 'OrderController@get_running_orders');
             Route::get('details', 'OrderController@get_order_details');
             Route::post('place', 'OrderController@place_order');
-            Route::put('cancel', 'OrderController@cancel_order');
-            Route::put('refund-request', 'OrderController@refund_request');
-            Route::get('track', 'OrderController@track_order');
             Route::put('payment-method', 'OrderController@update_payment_method');
         });
     });

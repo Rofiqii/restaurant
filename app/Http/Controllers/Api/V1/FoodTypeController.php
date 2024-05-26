@@ -87,7 +87,9 @@ class FoodTypeController extends Controller
             'parent_id' => 'required',
             'description' => 'required',
             'order' =>'required',
-        ]);
+        ],[
+            'title.required' => 'Kolom nama harus diisi'],
+        );
 
         $mytime = Carbon::now();
         $mytime->toDateTimeString();
