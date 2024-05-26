@@ -28,9 +28,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::controller(HomeController::class)->group(function (){
-    Route::get('/', 'Index')->name('Home');
-});
+// Route::controller(HomeController::class)->group(function (){
+//     Route::get('/', 'Index')->name('Home');
+// });
 
 // Route::controller(ClientController::class)->group(function (){
 //     Route::get('/category', 'CategoryPage')->name('category');
@@ -47,10 +47,21 @@ Route::controller(HomeController::class)->group(function (){
 
 Route::middleware(['auth', 'role:admin'])->group(function(){
     Route::controller(DashboardController::class)->group(function () {
-        Route::get('resources/admin/dashboard', 'Index')->name('admindashboard');
-
+        Route::get('admin/dashboard', 'Index')->name('admindashboard');
+        Route::get('resources/admin/logout', 'AdminLogout')->name('adminlogout');
     });
-Route::get('resources/admin/logout', 'App\Http\Controllers\Auth\AuthenticatedSessionController@logout');
+
+//     Route::controller(ProfileController::class)->group(function () {
+//         Route::get('logout', function ()
+// {
+//     auth()->logout();
+//     Session()->flush();
+
+//     return Redirect::to('/login');
+// })->name('logout');
+//         // Route::post('/admin/logout', 'AdminLogout')->name('adminlogout');
+//     });
+// Route::get('resources/admin/logout', 'App\Http\Controllers\Auth\AuthenticatedSessionController@logout');
 
     Route::controller(FoodsController::class)->group(function () {
         Route::get('/admin/all-food', 'Index')->name('allfoods');
@@ -79,8 +90,9 @@ Route::get('resources/admin/logout', 'App\Http\Controllers\Auth\AuthenticatedSes
         Route::get('/admin/edit-users/{id}','EditUsers')->name('editusers');
         Route::post('/admin/update-users', 'UpdateUsers')->name('update-users');
         Route::get('/admin/delete-users/{id}','DeleteUsers')->name('deleteusers');
-        Route::post('/admin/logout', 'LogoutUsers')->name('logoutusers');
+
     });
+
 
     Route::group(['prefix' => 'payment-mobile'], function () {
         Route::get('/', 'PaymentController@payment')->name('payment-mobile');
@@ -142,4 +154,4 @@ Route::middleware('auth')->group(function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

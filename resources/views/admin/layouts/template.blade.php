@@ -54,7 +54,7 @@
 
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="app-brand demo">
-                    <a href="index.html" class="app-brand-link">
+                    <a href="dashboard" class="app-brand-link">
 
                         <span class="app-brand-text demo menu-text fw-bold ms-2">Kecanteen</span>
                     </a>
@@ -227,7 +227,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" href="test">
                                             <span class="d-flex align-items-center align-middle">
                                                 <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
                                                 <span class="flex-grow-1 align-middle ms-1">Billing</span>
@@ -240,9 +240,8 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="javascript:void(0);">
+                                        <a class="dropdown-item" href="{{ route('adminlogout') }}">
                                             <i class="bx bx-power-off me-2"></i>
-                                            <a href="{{ route('logout') }}"></a>
                                             <span class="align-middle">Log Out</span>
                                         </a>
                                     </li>
