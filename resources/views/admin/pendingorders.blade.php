@@ -2,23 +2,35 @@
 @section('page_title')
     Pending Orders - Single Ecom
 @endsection
+@section('search')
+    <div class="navbar-nav align-items-center">
+        <div class="nav-item d-flex align-items-center">
+            <i class="bx bx-search fs-4 lh-0"></i>
+            <form method="GET" action={{ route('searchorder') }}>
+                <input type="text" name="search" class="form-control border-0 shadow-none ps-1 ps-sm-2" placeholder="Pencarian..." value="{{ isset($search) ? $search : '' }}"
+                    aria-label="Pencarian..." />
+            </form>
+        </div>
+    </div>
+@endsection
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>My Order</h4>
+                        <h4>Halaman Penerimaan Pesanan</h4>
                     </div>
                     <div class="card-body">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Tracking Number</th>
-                                    <th>Total Price</th>
+                                    <th>Nomor Pesanan</th>
+                                    <th>Total Biaya</th>
                                     <th>Status Pembayaran</th>
-                                    <th>Order Status</th>
-                                    <th>Status</th>
+                                    <th>Status Pesanan</th>
+                                    <th>Tanggal Pemesanan</th>
+                                    <th>Pesan Pemesan</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -41,7 +53,8 @@
                                         <td>{{ $item->created_at }}</td>
                                         <td>{{ $item->order_note }}</td>
                                         <td>
-                                            <a href="{{ url('admin/view-order/' . $item->id) }}" class="btn btn-primary">View</a>
+                                            <a href="{{ url('admin/view-order/' . $item->id) }}"
+                                                class="btn btn-primary">View</a>
                                         </td>
                                     </tr>
                                 @endforeach

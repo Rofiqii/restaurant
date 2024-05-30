@@ -90,7 +90,14 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
         Route::get('/admin/edit-users/{id}','EditUsers')->name('editusers');
         Route::post('/admin/update-users', 'UpdateUsers')->name('update-users');
         Route::get('/admin/delete-users/{id}','DeleteUsers')->name('deleteusers');
+    });
 
+    Route::controller(OrderController::class)->group(function () {
+        Route::get('/admin/pending-order', 'Index')->name('pendingorder');
+        Route::get('/admin/pending-order/search', 'SearchPending')->name('searchorder');
+        Route::get('/admin/history-order', 'IndexHistory')->name('historyorder');
+        Route::get('/admin/view-order/{id}', 'ViewOrder')->name('vieworder');
+        Route::get('/admin/update-order/{id}', 'UpdateOrder')->name('updateorder');
     });
 
 
@@ -134,10 +141,7 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
     //     Route::get('/admin/delete-product/{id}', 'DeleteProduct')->name('deleteproduct');
     // });
 
-    Route::controller(OrderController::class)->group(function () {
-        Route::get('/admin/pending-order', 'Index')->name('pendingorder');
-        Route::get('/admin/view-order/{id}', 'ViewOrder')->name('vieworder');
-    });
+
 
 });
 

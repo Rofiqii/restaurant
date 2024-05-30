@@ -56,7 +56,7 @@
                 <div class="app-brand demo">
                     <a href="dashboard" class="app-brand-link">
 
-                        <span class="app-brand-text demo menu-text fw-bold ms-2">Kecanteen</span>
+                        <span class="app-brand-text demo menu-text fw-bold ms-2">RestoranT</span>
                     </a>
 
                     <a href="javascript:void(0);"
@@ -73,7 +73,7 @@
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Dashboards">Dashboards</div>
-                            <div class="badge bg-danger rounded-pill ms-auto">5</div>
+                            {{-- <div class="badge bg-danger rounded-pill ms-auto">5</div> --}}
                         </a>
                         <ul class="menu-sub">
                             <li class="menu-item active">
@@ -140,13 +140,19 @@
 
                                         <! -- Header -->
                                             <li class="menu-header small text-uppercase">
-                                                <span class="menu-header-text">Orders</span>
+                                                <span class="menu-header-text">Pesanan</span>
                                             </li>
                                             <!-- Apps -->
                                             <li class="menu-item">
                                                 <a href="{{ route('pendingorder') }}" class="menu-link">
                                                     <i class="menu-icon tf-icons bx bx-collection"></i>
-                                                    <div data-i18n="Basic">Pending Orders</div>
+                                                    <div data-i18n="Basic">Penerimaan Pesanan</div>
+                                                </a>
+                                            </li>
+                                            <li class="menu-item">
+                                                <a href="{{ route('historyorder') }}" class="menu-link">
+                                                    <i class="menu-icon tf-icons bx bx-collection"></i>
+                                                    <div data-i18n="Basic">Riwayat Pemesanan</div>
                                                 </a>
                                             </li>
                         </ul>
@@ -167,13 +173,14 @@
 
                     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
                         <!-- Search -->
-                        <div class="navbar-nav align-items-center">
+                        @yield('search')
+                        {{-- <div class="navbar-nav align-items-center">
                             <div class="nav-item d-flex align-items-center">
                                 <i class="bx bx-search fs-4 lh-0"></i>
                                 <input type="text" class="form-control border-0 shadow-none ps-1 ps-sm-2"
-                                    placeholder="Search..." aria-label="Search..." />
+                                    placeholder="Pencarian..." aria-label="Search..." />
                             </div>
-                        </div>
+                        </div> --}}
                         <!-- /Search -->
 
                         <ul class="navbar-nav flex-row align-items-center ms-auto">

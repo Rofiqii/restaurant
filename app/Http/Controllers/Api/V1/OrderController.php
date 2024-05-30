@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use App\Client;
 
 class OrderController extends Controller
 {
@@ -23,12 +25,49 @@ class OrderController extends Controller
         return view('admin.pendingorders', compact('orders'));
     }
 
+    public function SearchPending(Request $request){
+        $search = $request->search;
+
+        $orders = Order::where(function($query) use ($search){
+
+            $query->where('id','like',"%$search%");
+
+
+        })->get();
+
+        return view('admin.pendingorders', compact('orders','search'));
+    }
+
+    public function IndexHistory(){
+        // $orders = Order::where('user_id', Auth::id())->get();
+        $orders = Order::where('order_status','confirmed')->get();
+        return view('admin.pendingorders', compact('orders'));
+    }
+
     public function ViewOrder($id)
     {
         // $orders = Order::findOrFail($id);
         $orders = Order::where('id', $id)->first();
         // $user = User::where('id', $userid)->get();
         return view('admin.vieworder', compact('orders'));
+    }
+
+    public function UpdateOrder(Request $request, $id){
+        // $orderid = Order::where('id', $id)->get();
+        // $id->update($request->all());
+        $request->validate([
+            'id' => 'required',
+            // Add other fields as needed
+        ]);
+
+        $mytime = Carbon::now();
+        $mytime->toDateTimeString();
+        Order::findOrFail($id)->update([
+            'order_status' => "confirmed",
+            'updated_at' => $mytime,
+        ]);
+
+        return redirect()->route('pendingorder')->with('message', 'Penerimaan pesanan berhasil');
     }
 
     public function place_order(Request $request)

@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -8,8 +9,11 @@ use Carbon\Carbon;
 class Order extends Model
 {
 
+    protected $fillable = ['order_status'];
+
     protected $casts = [
         'order_amount' => 'float',
+        'order_status' => 'string',
         'total_tax_amount' => 'float',
         'delivery_address_id' => 'integer',
         'delivery_charge' => 'float',
