@@ -3,5 +3,5 @@
 Dashboard - Single Ecom
 @endsection
 @section('content')
-w dashboard
+Dashboard
 @endsection

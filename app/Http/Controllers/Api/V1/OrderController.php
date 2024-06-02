@@ -19,28 +19,29 @@ use App\Client;
 class OrderController extends Controller
 {
     //
-    public function Index(){
+    public function Index()
+    {
         // $orders = Order::where('user_id', Auth::id())->get();
-        $orders = Order::where('order_status','pending')->get();
+        $orders = Order::where('order_status', 'pending')->get();
         return view('admin.pendingorders', compact('orders'));
     }
 
-    public function SearchPending(Request $request){
+    public function SearchPending(Request $request)
+    {
         $search = $request->search;
 
-        $orders = Order::where(function($query) use ($search){
+        $orders = Order::where(function ($query) use ($search) {
 
-            $query->where('id','like',"%$search%");
-
-
+            $query->where('id', 'like', "%$search%");
         })->get();
 
-        return view('admin.pendingorders', compact('orders','search'));
+        return view('admin.pendingorders', compact('orders', 'search'));
     }
 
-    public function IndexHistory(){
+    public function IndexHistory()
+    {
         // $orders = Order::where('user_id', Auth::id())->get();
-        $orders = Order::where('order_status','confirmed')->get();
+        $orders = Order::where('order_status', 'confirmed')->get();
         return view('admin.pendingorders', compact('orders'));
     }
 
@@ -52,7 +53,8 @@ class OrderController extends Controller
         return view('admin.vieworder', compact('orders'));
     }
 
-    public function UpdateOrder(Request $request, $id){
+    public function UpdateOrder(Request $request, $id)
+    {
         // $orderid = Order::where('id', $id)->get();
         // $id->update($request->all());
         $request->validate([
@@ -76,7 +78,7 @@ class OrderController extends Controller
             'order_amount' => 'required',
             // 'address' => 'required_if:order_type,delivery',
             //'longitude' => 'required_if:order_type,delivery',
-           // 'latitude' => 'required_if:order_type,delivery',
+            // 'latitude' => 'required_if:order_type,delivery',
         ]);
 
         if ($validator->fails()) {
@@ -94,8 +96,8 @@ class OrderController extends Controller
         $order->order_note = $request['order_note']; //checked
         $order->pending = now(); //checked
         $order->created_at = now(); //checked
-        $order->updated_at = now();//checked
-        $order->order_type = $request ['order_type'];
+        $order->updated_at = now(); //checked
+        $order->order_type = $request['order_type'];
         // new added
         // $order->payment_status = $request['payment_method']=='wallet'?'paid':'unpaid';
         // $order->order_status = $request['payment_method']=='digital_payment'?'failed':
@@ -104,35 +106,35 @@ class OrderController extends Controller
 
         foreach ($request['cart'] as $c) {
 
-                $product = Food::find($c['id']); //checked
-                if ($product) {
+            $product = Food::find($c['id']); //checked
+            if ($product) {
 
-                    $price = $product['price']; //checked
+                $price = $product['price']; //checked
 
-                    $or_d = [
-                        'food_id' => $c['id'], //checked
-                        'food_details' => json_encode($product),
-                        'quantity' => $c['quantity'], //checked
-                        'price' => $price, //checked
-                        'created_at' => now(), //checked
-                        'updated_at' => now(), //checked
-                    ];
+                $or_d = [
+                    'food_id' => $c['id'], //checked
+                    'food_details' => json_encode($product),
+                    'quantity' => $c['quantity'], //checked
+                    'price' => $price, //checked
+                    'created_at' => now(), //checked
+                    'updated_at' => now(), //checked
+                ];
 
-                    $product_price += $price*$or_d['quantity'];
-                    $order_details[] = $or_d;
-                } else {
-                    return response()->json([
-                        'errors' => [
-                            ['code' => 'food', 'message' => 'not found!']
-                        ]
-                    ], 401);
-                }
+                $product_price += $price * $or_d['quantity'];
+                $order_details[] = $or_d;
+            } else {
+                return response()->json([
+                    'errors' => [
+                        ['code' => 'food', 'message' => 'not found!']
+                    ]
+                ], 401);
+            }
         }
 
 
         try {
-            $save_order= $order->id;
-            $total_price= $product_price;
+            $save_order = $order->id;
+            $total_price = $product_price;
             $order->order_amount = $total_price;
             $order->save();
 
@@ -169,7 +171,7 @@ class OrderController extends Controller
             'order_amount' => 'required',
             'address' => 'required_if:order_type,delivery',
             //'longitude' => 'required_if:order_type,delivery',
-           // 'latitude' => 'required_if:order_type,delivery',
+            // 'latitude' => 'required_if:order_type,delivery',
         ]);
 
         if ($validator->fails()) {
@@ -177,8 +179,8 @@ class OrderController extends Controller
         }
 
         $address = [
-            'contact_person_name' => $request->contact_person_name?$request->contact_person_name:$request->user()->f_name.' '.$request->user()->f_name,
-            'contact_person_number' => $request->contact_person_number?$request->contact_person_number:$request->user()->phone,
+            'contact_person_name' => $request->contact_person_name ? $request->contact_person_name : $request->user()->f_name . ' ' . $request->user()->f_name,
+            'contact_person_number' => $request->contact_person_number ? $request->contact_person_number : $request->user()->phone,
             'address' => $request->address,
             'longitude' => (string)$request->longitude,
             'latitude' => (string)$request->latitude,
@@ -195,7 +197,7 @@ class OrderController extends Controller
         // $order->otp = rand(1000, 9999); //checked
         $order->pending = now(); //checked
         $order->created_at = now(); //checked
-        $order->updated_at = now();//checked
+        $order->updated_at = now(); //checked
         // $order->order_type = $request ['order_type'];
         // new added
         // $order->payment_status = $request['payment_method']=='wallet'?'paid':'unpaid';
@@ -206,36 +208,36 @@ class OrderController extends Controller
 
         foreach ($request['cart'] as $c) {
 
-                $product = Food::find($c['id']); //checked
-                if ($product) {
+            $product = Food::find($c['id']); //checked
+            if ($product) {
 
-                    $price = $product['price']; //checked
+                $price = $product['price']; //checked
 
-                    $or_d = [
-                        'food_id' => $c['id'], //checked
-                        'food_details' => json_encode($product),
-                        'quantity' => $c['quantity'], //checked
-                        'price' => $price, //checked
-                        'created_at' => now(), //checked
-                        'updated_at' => now(), //checked
-                        'tax_amount' => 10.0
-                    ];
+                $or_d = [
+                    'food_id' => $c['id'], //checked
+                    'food_details' => json_encode($product),
+                    'quantity' => $c['quantity'], //checked
+                    'price' => $price, //checked
+                    'created_at' => now(), //checked
+                    'updated_at' => now(), //checked
+                    'tax_amount' => 10.0
+                ];
 
-                    $product_price += $price*$or_d['quantity'];
-                    $order_details[] = $or_d;
-                } else {
-                    return response()->json([
-                        'errors' => [
-                            ['code' => 'food', 'message' => 'not found!']
-                        ]
-                    ], 401);
-                }
+                $product_price += $price * $or_d['quantity'];
+                $order_details[] = $or_d;
+            } else {
+                return response()->json([
+                    'errors' => [
+                        ['code' => 'food', 'message' => 'not found!']
+                    ]
+                ], 401);
+            }
         }
 
 
         try {
-            $save_order= $order->id;
-            $total_price= $product_price;
+            $save_order = $order->id;
+            $total_price = $product_price;
             $order->order_amount = $total_price;
             $order->save();
 
@@ -266,13 +268,12 @@ class OrderController extends Controller
     }
 
     public function get_order_list(Request $request)
-{
-    $orders = Order::withCount('details')->where(['user_id' => $request->user()->id])->get()->map(function ($data) {
-        $data['delivery_address'] = $data['delivery_address']?json_decode($data['delivery_address']):$data['delivery_address'];
+    {
+        $orders = Order::withCount('details')->where(['user_id' => $request->user()->id])->get()->map(function ($data) {
+            $data['delivery_address'] = $data['delivery_address']?json_decode($data['delivery_address']):$data['delivery_address'];
 
-        return $data;
-    });
+            return $data;
+        });
+        return response()->json($orders, 200);
+    }
 }
-}
-
-

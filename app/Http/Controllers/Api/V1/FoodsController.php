@@ -125,6 +125,7 @@ class FoodsController extends Controller
             'description' => $request->description,
             'updated_at' => $mytime,
             'type_id' => $request ->type_id,
+            
 
         ]);
 

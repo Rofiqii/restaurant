@@ -1,39 +1,76 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
+import './bootstrap'
 
-import './bootstrap';
-import { createApp } from 'vue';
+import Alpine from 'alpinejs'
+import collapse from '@alpinejs/collapse'
+import PerfectScrollbar from 'perfect-scrollbar'
 
-/**
- * Next, we will create a fresh Vue application instance. You may then begin
- * registering components with the application instance so they are ready
- * to use in your application's views. An example is included for you.
- */
+window.PerfectScrollbar = PerfectScrollbar
 
-const app = createApp({});
+document.addEventListener('alpine:init', () => {
+    Alpine.data('mainState', () => {
+        let lastScrollTop = 0
+        const init = function () {
+            window.addEventListener('scroll', () => {
+                let st =
+                    window.pageYOffset || document.documentElement.scrollTop
+                if (st > lastScrollTop) {
+                    // downscroll
+                    this.scrollingDown = true
+                    this.scrollingUp = false
+                } else {
+                    // upscroll
+                    this.scrollingDown = false
+                    this.scrollingUp = true
+                    if (st == 0) {
+                        //  reset
+                        this.scrollingDown = false
+                        this.scrollingUp = false
+                    }
+                }
+                lastScrollTop = st <= 0 ? 0 : st // For Mobile or negative scrolling
+            })
+        }
 
-import ExampleComponent from './components/ExampleComponent.vue';
-app.component('example-component', ExampleComponent);
+        const getTheme = () => {
+            if (window.localStorage.getItem('dark')) {
+                return JSON.parse(window.localStorage.getItem('dark'))
+            }
+            return (
+                !!window.matchMedia &&
+                window.matchMedia('(prefers-color-scheme: dark)').matches
+            )
+        }
+        const setTheme = (value) => {
+            window.localStorage.setItem('dark', value)
+        }
+        return {
+            init,
+            isDarkMode: getTheme(),
+            toggleTheme() {
+                this.isDarkMode = !this.isDarkMode
+                setTheme(this.isDarkMode)
+            },
+            isSidebarOpen: window.innerWidth > 1024,
+            isSidebarHovered: false,
+            handleSidebarHover(value) {
+                if (window.innerWidth < 1024) {
+                    return
+                }
+                this.isSidebarHovered = value
+            },
+            handleWindowResize() {
+                if (window.innerWidth <= 1024) {
+                    this.isSidebarOpen = false
+                } else {
+                    this.isSidebarOpen = true
+                }
+            },
+            scrollingDown: false,
+            scrollingUp: false,
+        }
+    })
+})
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+Alpine.plugin(collapse)
 
-// Object.entries(import.meta.glob('./**/*.vue', { eager: true })).forEach(([path, definition]) => {
-//     app.component(path.split('/').pop().replace(/\.\w+$/, ''), definition.default);
-// });
-
-/**
- * Finally, we will attach the application instance to a HTML element with
- * an "id" attribute of "app". This element is included with the "auth"
- * scaffolding. Otherwise, you will need to add an element yourself.
- */
-
-app.mount('#app');
+Alpine.start()

@@ -101,6 +101,7 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
     });
 
 
+
     Route::group(['prefix' => 'payment-mobile'], function () {
         Route::get('/', 'PaymentController@payment')->name('payment-mobile');
         Route::get('set-payment-method/{name}', 'PaymentController@set_payment_method')->name('set-payment-method');
