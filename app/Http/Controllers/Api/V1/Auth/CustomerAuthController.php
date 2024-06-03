@@ -73,6 +73,7 @@ class CustomerAuthController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => bcrypt($request->password),
+            'email_verified_at' => now()
         ]);
 
         $token = $user->createToken('RestaurantCustomerAuth')->accessToken;

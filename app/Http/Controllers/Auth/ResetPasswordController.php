@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -17,6 +18,20 @@ class ResetPasswordController extends Controller
     | explore this trait and override any methods you wish to tweak.
     |
     */
+
+    public function reset($token)
+    {
+        $user = User::where('email', '=', $request->email)->first();
+        if (!empty($user))
+        {
+            $data['user'] = $user;
+            return view('auth.reset', $data);
+        }
+        else
+        {
+            abort(404);
+        }
+    }
 
     use ResetsPasswords;
 

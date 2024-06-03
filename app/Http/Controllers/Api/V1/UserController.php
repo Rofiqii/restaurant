@@ -32,6 +32,7 @@ class UserController extends Controller
             'email' =>'required|unique:users,email',
             'phone' => 'required',
             'password' => 'required|min:6',
+            // 'email_verified_at' => now()
         ]);
 
         // $category_id = $request->category_id;
