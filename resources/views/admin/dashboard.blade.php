@@ -3,62 +3,71 @@
     Dashboard - Single Ecom
 @endsection
 @section('js')
- {{-- <script src="{{  asset('assets/apexcharts/dist/apexcharts.js') }}"></script> --}}
-{{-- <link rel="stylesheet" href="{{ asset('assets/apexcharts/dist/apexcharts.css') }}"/> --}}
-{{-- <link rel="stylesheet" href="{{ URL::asset('assets/apexcharts/dist/apexcharts.css') }}"> --}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.41.0/apexcharts.min.js" integrity="sha512-bp/xZXR0Wn5q5TgPtz7EbgZlRrIU3tsqoROPe9sLwdY6Z+0p6XRzr7/JzqQUfTSD3rWanL6WUVW7peD4zSY/vQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.41.0/apexcharts.min.css" integrity="sha512-5k2n0KtbytaKmxjJVf3we8oDR34XEaWP2pibUtul47dDvz+BGAhoktxn7SJRQCHNT5aJXlxzVd45BxMDlCgtcA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
- {{-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="{{ asset('assets/apexcharts/dist/apexcharts.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('assets/apexcharts/dist/apexcharts.css') }}" />
+    {{-- <link rel="stylesheet" href="{{ URL::asset('assets/apexcharts/dist/apexcharts.css') }}"> --}}
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.35.0/dist/apexcharts.css"> --}}
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.41.0/apexcharts.min.js"
+        integrity="sha512-bp/xZXR0Wn5q5TgPtz7EbgZlRrIU3tsqoROPe9sLwdY6Z+0p6XRzr7/JzqQUfTSD3rWanL6WUVW7peD4zSY/vQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.41.0/apexcharts.min.css"
+        integrity="sha512-5k2n0KtbytaKmxjJVf3we8oDR34XEaWP2pibUtul47dDvz+BGAhoktxn7SJRQCHNT5aJXlxzVd45BxMDlCgtcA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
+    {{-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script src="{{ URL('assets/apexcharts/dist/apexcharts.min.js') }}"></script> --}}
-
-<script>
-    var options = {
-          series: [{
-            name: "Total Pendapatan",
-            data: @json($dataTotalPesanan)
-            //  [10, 41, 35, 51, 49, 62, 69, 91, 148]
-        }],
-          chart: {
-          height: 280,
-          type: 'line',
-          zoom: {
-            enabled: false
-          }
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          curve: 'straight'
-        },
-        title: {
-          text: 'Laporan Penjualan',
-          align: 'left'
-        },
-        grid: {
-          row: {
-            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-            opacity: 0.5
-          },
-        },
-        xaxis: {
-          categories: @json($dataBulan),
-        }
-        yaxis: {
-            labels: {
-                formatter: function(value) {
-                    return value.toLocaleString("id-ID", {
-                        style: "currency"
-                        currency: "IDR"
-                    });
+    {{-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> --}}
+    <script>
+        var options = {
+            series: [{
+                name: "Total Pendapatan",
+                data: @json($dataTotalPesanan)
+                //  [10, 41, 35, 51, 49, 62, 69, 91, 148]
+            }],
+            chart: {
+                height: 280,
+                type: 'line',
+                zoom: {
+                    enabled: false
                 }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'straight'
+            },
+            title: {
+                text: 'Laporan Penjualan',
+                align: 'left'
+            },
+            grid: {
+                row: {
+                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
+            },
+            xaxis: {
+                categories: @json($dataBulan),
+
+            },
+
+            yaxis: {
+                labels: {
+                    formatter: function(value) {
+                        // return "Rp. "+value;
+                        return value.toLocaleString("id-ID", {
+                            style: "currency",
+                            currency: "IDR"
+                        });
+                    }
+                },
+
             }
-        }
         };
 
         var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
-</script>
+    </script>
 @endsection
 
 @section('content')
@@ -239,7 +248,7 @@
                             </div>
                         </div>
                         <!-- </div>
-    <div class="row"> -->
+                <div class="row"> -->
                         <div class="col-12 mb-4">
                             <div class="card">
                                 <div class="card-body">
