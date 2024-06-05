@@ -99,6 +99,7 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
         Route::get('/admin/history-order', 'IndexHistory')->name('historyorder');
         Route::get('/admin/view-order/{id}', 'ViewOrder')->name('vieworder');
         Route::get('/admin/update-order/{id}', 'UpdateOrder')->name('updateorder');
+        Route::get('/admin/delete-order/{id}','DeleteOrder')->name('deleteorder');
     });
 
 

@@ -39,7 +39,8 @@ All Sub Category - Single Ecom
                 <td>{{ $user->updated_at }}</td>
                 <td>
                     <a href="{{route('editusers', $user->id)}}" class="btn btn-primary">Edit</a>
-                    <a href="{{route('deleteusers', $user->id)}}" class="btn btn-warning">Delete</a>
+                    {{-- <a href="{{route('deleteusers'. $user->id)}}" class="btn btn-warning">Delete</a> --}}
+                    <a href="{{ url('admin/delete-users/' . $user->id) }}" class="btn btn-warning">Hapus</a>
                 </td>
               </tr>
               @endforeach

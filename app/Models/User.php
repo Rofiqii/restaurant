@@ -56,6 +56,11 @@ class User extends Authenticatable //implements LaratrustUser
     {
         return $this->hasMany(Order::class, 'user_id');
     }
+
+    public function role()
+    {
+        return $this->hasMany(Role::class, 'user_id');
+    }
     // public function users()
     // {
     //     return $this->belongsTo(Order::class,'user_id', 'id');

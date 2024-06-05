@@ -9,9 +9,11 @@ use Carbon\Carbon;
 class Order extends Model
 {
 
-    protected $fillable = ['order_status'];
+    protected $fillable = ['order_status','payment_status'];
 
     protected $casts = [
+        'id' => 'integer',
+        'payment_status' => 'string',
         'order_amount' => 'float',
         'order_status' => 'string',
         'total_tax_amount' => 'float',
@@ -38,4 +40,18 @@ class Order extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function scopeIdOrder($q)
+    {
+        return $this->where('id', auth()->user()->id);
+    }
+
+
+
+    // public function products() : BelongsToMany
+    // {
+    //     return $this->belongsToMany(Food::class,'id','id')-
+    //     ->withPivot('quantity');
+    // }
+
 }

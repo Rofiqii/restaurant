@@ -88,11 +88,13 @@ class UserController extends Controller
     public function DeleteUsers(User $id)
     {
         // $user_id= User::where('id', $id)->value('id');
-        User::findOrFail($id)->delete();
+        // User::findOrFail($id)->delete();
+        $users = User::find($id);
+        $users->each->delete();
 
         // Category::where('id', $cat_id)->decrement('subcategory_count', 1);
-        $subcategory->delete();
-        return redirect()->route('allsubcategory')->with('message', 'Pengguna berhasil dihapus');
+        // $subcategory->delete();
+        return redirect()->route('allusers')->with('message', 'Pengguna berhasil dihapus');
     }
 
 }

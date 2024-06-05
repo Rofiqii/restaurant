@@ -284,7 +284,7 @@
     <script src="{{ asset('dashboard2/assets/vendor/js/bootstrap.js') }}"></script>
     <script src="{{ asset('dashboard2/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
     <script src="{{ asset('dashboard2/assets/vendor/js/menu.js') }}"></script>
-
+    @yield('js')
     <!-- endbuild -->
 
     <!-- Vendors JS -->

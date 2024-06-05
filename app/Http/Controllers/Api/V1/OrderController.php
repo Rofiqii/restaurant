@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+// use Illuminate\Database\Eloquent\Collection;
 use App\CentralLogics\Helpers;
 // use App\Http\Controllers\Api\V1\Auth;
 // use App\Http\Controllers\Api\V1\Auth\CustomerAuthController;
@@ -53,6 +54,15 @@ class OrderController extends Controller
         return view('admin.vieworder', compact('orders'));
     }
 
+    public function DeleteOrder(Order $id)
+    {
+        $order = Order::find($id);
+        $order->each->delete();
+        // $id->delete();
+
+        return redirect()->route('pendingorders')->with('message', 'Pesanan berhasil dihapus');
+    }
+
     public function UpdateOrder(Request $request, $id)
     {
         // $orderid = Order::where('id', $id)->get();
@@ -65,6 +75,7 @@ class OrderController extends Controller
         $mytime = Carbon::now();
         $mytime->toDateTimeString();
         Order::findOrFail($id)->update([
+            'payment_status' => "confirmed",
             'order_status' => "confirmed",
             'updated_at' => $mytime,
         ]);

@@ -56,9 +56,9 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label" for="basic-default-name">Order</label>
+                            {{-- <label class="col-sm-2 col-form-label" for="basic-default-name">Order</label> --}}
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" id="order" name="order"
+                                <input type="hidden" class="form-control" id="order" name="order"
                                     value="{{ $category_info->order }}" />
                             </div>
                         </div>
