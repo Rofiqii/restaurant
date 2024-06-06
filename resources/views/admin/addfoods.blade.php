@@ -9,7 +9,7 @@
             <div class="card mb-4">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <h5 class="mb-0">Tambah Makanan Baru</h5>
-                    <small class="text-muted float-end">Input Information</small>
+                    <small class="text-muted float-end">Input Informasi</small>
                 </div>
                 <div class="card-body">
                     @if ($errors->any())

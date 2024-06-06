@@ -21,7 +21,7 @@ class DashboardController extends Controller
         $itemsId = Order::where('payment_status', 'confirmed')->pluck('id');
         $tahun = date('Y');
         $bulan = date('m');
-        for ($i=1; $i < $bulan; $i++) {
+        for ($i=1; $i <= $bulan; $i++) {
             $totalPesanan = Order::whereIn('id', $itemsId)->whereYear('created_at', $tahun)->whereMonth('created_at', $i)->sum('order_amount');
             $dataBulan[] = Helpers::ubahAngkaToBulan($i);
             $dataTotalPesanan[] = $totalPesanan;

@@ -70,17 +70,17 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label" for="basic-default-name">Orang</label>
+                            {{-- <label class="col-sm-2 col-form-label" for="basic-default-name">Orang</label> --}}
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" id="people" name="people" value="{{$foodinfo->people}}"
+                                <input type="hidden" class="form-control" id="people" name="people" value="{{$foodinfo->people}}"
                                     placeholder="" />
                             </div>
                         </div>
 
                         <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label" for="basic-default-name">Orang Terpilih</label>
+                            {{-- <label class="col-sm-2 col-form-label" for="basic-default-name">Orang Terpilih</label> --}}
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="selected_people" name="selected_people"
+                                <input type="hidden" class="form-control" id="selected_people" name="selected_people"
                                 value="{{$foodinfo->selected_people}}" placeholder="" />
                             </div>
                         </div>

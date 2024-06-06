@@ -55,9 +55,9 @@
                                     <label for="">Id Pemesan</label>
                                     <div class="border">{{ $orders->user_id }}</div>
                                     <label for="">Nama Pemesan</label>
-                                    <div class="border">{{ $orders->user->name }}</div>
+                                    <div class="border">{{ $orders->user->f_name }}</div>
                                     <label for="">Catatan</label>
-                                    <div class="border">{{ $orders->order_note }}</div>
+                                    <div class="border">{{ $orders->order_note ?? "Tidak ada pesan" }}</div>
                                     <label for="">Total Biaya</label>
                                     <div class="border" style="margin-bottom: 25px;";>{{ $orders->order_amount }}</div>
                                 </div>
@@ -86,8 +86,9 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Nomor Pesanan</th>
+                                        <th>Nama Makanan</th>
                                         <th>Harga</th>
+                                        <th>Kuantitas</th>
                                         <th>Status Pembayaran</th>
                                         <th>Status Pesanan</th>
                                         <th>Tanggal Pesanan</th>
@@ -100,6 +101,7 @@
                                         <tr>
                                             <td>{{ $item->food->name }}</td>
                                             <td>{{ $item->price }}</td>
+                                            <td>{{ $item->quantity }}</td>
                                             <td>{{ $orders->payment_status }}</td>
                                             <td>{{ $orders->order_status }}</td>
                                             <td>{{ $orders->created_at }}</td>
