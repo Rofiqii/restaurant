@@ -1,6 +1,17 @@
 @extends('admin.layouts.template')
 @section('page_title')
-All Sub Category - Single Ecom
+Semua Pengguna - Restorant
+@endsection
+@section('search')
+    <div class="navbar-nav align-items-center">
+        <div class="nav-item d-flex align-items-center">
+            <i class="bx bx-search fs-4 lh-0"></i>
+            <form method="GET" action={{ route('searchusers') }}>
+                <input type="text" name="search" class="form-control border-0 shadow-none ps-1 ps-sm-2"
+                    placeholder="Pencarian nomor pesanan..." value="{{ isset($search) ? $search : '' }}" aria-label="Pencarian..." />
+            </form>
+        </div>
+    </div>
 @endsection
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">

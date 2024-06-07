@@ -2,6 +2,17 @@
 @section('page_title')
     All Product - Single Ecom
 @endsection
+@section('search')
+    <div class="navbar-nav align-items-center">
+        <div class="nav-item d-flex align-items-center">
+            <i class="bx bx-search fs-4 lh-0"></i>
+            <form method="GET" action={{ route('searchfood') }}>
+                <input type="text" name="search" class="form-control border-0 shadow-none ps-1 ps-sm-2 w-100"
+                    placeholder="Pencarian id atau nama..." value="{{ isset($search) ? $search : '' }}" aria-label="Pencarian..." style="600px" />
+            </form>
+        </div>
+    </div>
+@endsection
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="py-3 mb-4"><span class="text-muted fw-light">Halaman/</span> Semua Makanan</h4>

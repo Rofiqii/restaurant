@@ -1,6 +1,6 @@
 @extends('admin.layouts.template')
 @section('page_title')
-Add Sub Category - Single Ecom
+Tambahkan Pengguna - Restorant
 @endsection
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">

@@ -20,6 +20,20 @@ class UserController extends Controller
         return view("admin.allusers", compact('users'));
     }
 
+    public function SearchUsers(Request $request)
+    {
+        $search = $request->search;
+
+        $users = Food::where(function ($query) use ($search) {
+
+            $query->where('id', 'like', "%$search%")
+            ->orWhere('name','like',"%$search%");
+
+        })->get();
+
+        return view('admin.allusers', compact('users', 'search'));
+    }
+
     public function AddUsers(){
         $users = User::latest()->get();
         return view('admin.addusers', compact('users'));
@@ -45,6 +59,7 @@ class UserController extends Controller
             'phone' => $request->phone,
             'password' => bcrypt($request->password),
         ]);
+        $user->addRole('user');
 
         // $token = $user->createToken('RestaurantCustomerAuth')->accessToken;
 

@@ -24,6 +24,20 @@ class FoodsController extends Controller
         return view("admin.allfoods", compact('foods'));
     }
 
+    public function SearchFood(Request $request)
+    {
+        $search = $request->search;
+
+        $foods = Food::where(function ($query) use ($search) {
+
+            $query->where('id', 'like', "%$search%")
+            ->orWhere('name','like',"%$search%");
+
+        })->get();
+
+        return view('admin.allfoods', compact('foods', 'search'));
+    }
+
     public function AddFood(){
         $foodtype = FoodType::latest()->get();
         $typeid = FoodType::latest()->get();
@@ -125,7 +139,7 @@ class FoodsController extends Controller
             'description' => $request->description,
             'updated_at' => $mytime,
             'type_id' => $request ->type_id,
-            
+
 
         ]);
 

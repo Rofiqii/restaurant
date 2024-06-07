@@ -35,7 +35,7 @@ class AuthenticatedSessionController extends Controller
         if($user->hasRole('admin'))
             return to_route('admindashboard');
 
-        return to_route('dashboard');
+        return to_route('adminlogout');
     }
 
     /**

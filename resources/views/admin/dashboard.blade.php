@@ -24,7 +24,7 @@
                 //  [10, 41, 35, 51, 49, 62, 69, 91, 148]
             }],
             chart: {
-                height: 280,
+                height: 365,
                 type: 'line',
                 zoom: {
                     enabled: false
@@ -272,7 +272,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
         <!-- / Content -->
     @endsection

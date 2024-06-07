@@ -49,7 +49,7 @@ Route::get('/', function () {
 Route::middleware(['auth', 'role:admin'])->group(function(){
     Route::controller(DashboardController::class)->group(function () {
         Route::get('admin/dashboard', 'Index')->name('admindashboard');
-        Route::get('resources/admin/logout', 'AdminLogout')->name('adminlogout');
+        // Route::get('resources/admin/logout', 'AdminLogout')->name('adminlogout');
     });
 
 //     Route::controller(ProfileController::class)->group(function () {
@@ -66,6 +66,7 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
 
     Route::controller(FoodsController::class)->group(function () {
         Route::get('/admin/all-food', 'Index')->name('allfoods');
+        Route::get('/admin/all-food/search', 'SearchFood')->name('searchfood');
         Route::get('/admin/add-food', 'AddFood')->name('addfoods');
         Route::post('/admin/store-food', 'StoreFood')->name('store-food');
         Route::get('/admin/edit-food/{id}','EditFood')->name('editfood');
@@ -77,6 +78,7 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
 
     Route::controller(FoodTypeController::class)->group(function () {
         Route::get('/admin/all-food-type', 'Index')->name('allfoodtype');
+        Route::get('/admin/pending-order/search', 'SearchPending')->name('searchorder');
         Route::get('/admin/add-food-type', 'AddFoodType')->name('addfoodtype');
         Route::post('/admin/store-food-type', 'StoreFoodType')->name('storefoodtype');
         Route::get('/admin/edit-food-type/{id}','EditFoodType')->name('editfoodtype');
@@ -86,6 +88,7 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
 
     Route::controller(UserController::class)->group(function () {
         Route::get('/admin/all-users', 'Index')->name('allusers');
+        Route::get('/admin/search-users/search', 'SearchUsers')->name('searchusers');
         Route::get('/admin/add-users', 'AddUsers')->name('add-users');
         Route::post('/admin/store-users', 'StoreUsers')->name('storeusers');
         Route::get('/admin/edit-users/{id}','EditUsers')->name('editusers');
@@ -150,6 +153,7 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
 
 Route::get('/userprofile', [DashboardController::class, 'Index']);
 Route::middleware('auth')->group(function () {
+    Route::get('resources/admin/logout', [DashboardController::class,'AdminLogout'])->name('adminlogout');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
