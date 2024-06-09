@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api\V1\Auth;
+
 use App\CentralLogics\Helpers;
 
 use App\Http\Controllers\Controller;
@@ -14,9 +15,9 @@ use Illuminate\Support\Facades\Validator;
 class CustomerAuthController extends Controller
 {
 
-     public function login(Request $request)
+    public function login(Request $request)
     {
-          $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'email' => 'required',
             'password' => 'required|min:6'
         ]);
@@ -32,8 +33,7 @@ class CustomerAuthController extends Controller
         if (auth()->attempt($data)) {
             //auth()->user() is coming from laravel auth:api middleware
             $token = auth()->user()->createToken('RestaurantCustomerAuth')->accessToken;
-            if(!auth()->user()->status)
-            {
+            if (!auth()->user()->status) {
                 $errors = [];
                 array_push($errors, ['code' => 'auth-003', 'message' => trans('messages.your_account_is_blocked')]);
                 return response()->json([
@@ -41,27 +41,30 @@ class CustomerAuthController extends Controller
                 ], 403);
             }
 
-            return response()->json(['token' => $token, 'is_phone_verified'=>auth()->user()->is_phone_verified], 200);
+            return response()->json(['token' => $token, 'is_phone_verified' => auth()->user()->is_phone_verified], 200);
         } else {
             $errors = [];
-            array_push($errors, ['code' => 'auth-001', 'message' => 'Unauthorized.']);
+            array_push($errors, ['code' => 'auth-001', 'message' => 'Email atau password salah.']);
             return response()->json([
                 'errors' => $errors
             ], 401);
         }
     }
 
-        public function register(Request $request)
+    public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'f_name' => 'required',
+            'f_name' => 'required|min:3',
             //'l_name' => 'required',
             'email' => 'required|unique:users',
-            'phone' => 'required|unique:users',
-            'password' => 'required|min:6',
-        ], [
-            'f_name.required' => 'The first name field is required.',
-            'phone.required' => 'The  phone field is required.',
+            'phone' => 'required|unique:users|min:11',
+            'password' => 'required',
+            'min:6',
+            'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/',
+        ],
+        [
+            'f_name.required' => 'Nama tidak boleh kurang dari 3 huruf.',
+            'phone.required' => 'Nomor telepon telah diambil.',
         ]);
 
         if ($validator->fails()) {
@@ -75,10 +78,9 @@ class CustomerAuthController extends Controller
             'password' => bcrypt($request->password),
             'email_verified_at' => now()
         ]);
-
+        $user->addRole('user');
         $token = $user->createToken('RestaurantCustomerAuth')->accessToken;
 
-
-        return response()->json(['token' => $token,'is_phone_verified' => 0, 'phone_verify_end_url'=>"api/v1/auth/verify-phone" ], 200);
+        return response()->json(['token' => $token, 'is_phone_verified' => 0, 'phone_verify_end_url' => "api/v1/auth/verify-phone"], 200);
     }
 }
