@@ -45,7 +45,7 @@ class UserController extends Controller
             'f_name' =>'required',
             'email' =>'required|unique:users,email',
             'phone' => 'required',
-            'password' => 'required|min:6',
+            'password' => 'required|min:8',
             // 'email_verified_at' => now()
         ]);
 
@@ -82,7 +82,7 @@ class UserController extends Controller
             'f_name' =>'required',
             'email' => ['required',Rule::unique('users')->ignore($request->id),],
             'phone' => 'required',
-            'password' => 'required|min:6',
+            'password' => 'required|min:8',
         ]);
 
 

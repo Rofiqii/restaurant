@@ -19,7 +19,7 @@ class CustomerAuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required',
-            'password' => 'required|min:6'
+            'password' => 'required|min:8'
         ]);
 
         if ($validator->fails()) {
@@ -59,7 +59,7 @@ class CustomerAuthController extends Controller
             'email' => 'required|unique:users',
             'phone' => 'required|unique:users|min:11',
             'password' => 'required',
-            'min:6',
+            'min:8',
             'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/',
         ],
         [

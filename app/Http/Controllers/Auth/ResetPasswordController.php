@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Http\Request;
+use App\Models\User;
+// use App\Http\Controllers\Auth\User;
 
 class ResetPasswordController extends Controller
 {
@@ -19,19 +22,19 @@ class ResetPasswordController extends Controller
     |
     */
 
-    public function reset($token)
-    {
-        $user = User::where('email', '=', $request->email)->first();
-        if (!empty($user))
-        {
-            $data['user'] = $user;
-            return view('auth.reset', $data);
-        }
-        else
-        {
-            abort(404);
-        }
-    }
+    // public function reset(Request $request)
+    // {
+    //     $user = User::where('email', '=', $request->email)->first();
+    //     if (!empty($user))
+    //     {
+    //         $data['user'] = $user;
+    //         return view('auth.confirm-password', $data);
+    //     }
+    //     else
+    //     {
+    //         abort(404);
+    //     }
+    // }
 
     use ResetsPasswords;
 

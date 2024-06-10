@@ -106,6 +106,13 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
     });
 
 
+    Route::get('/routes', function() {
+        $routeCollection = Route::getRoutes();
+        foreach ($routeCollection as $value) {
+           echo $value->getActionName();
+           echo "<br/>";
+        }
+    });
 
     Route::group(['prefix' => 'payment-mobile'], function () {
         Route::get('/', 'PaymentController@payment')->name('payment-mobile');
@@ -162,7 +169,7 @@ Route::middleware('auth')->group(function () {
 
 
 // require __DIR__.'/auth.php';
-
+Route::get('password/reset/{token}', [App\Http\Controllers\Auth\ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

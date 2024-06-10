@@ -1,3 +1,5 @@
+
+{{-- use Illuminate\Http\Request; --}}
 <x-guest-layout>
     <x-auth-card>
         <!-- Validation Errors -->
@@ -8,7 +10,7 @@
             @csrf
 
             <!-- Password Reset Token -->
-            <input type="hidden" name="token" value="{{ $request->route('oauth') }}">
+            <input type="hidden" name="token" value="{{ $token }}">
 
             <div class="grid gap-6">
                 <!-- Email Address -->
@@ -23,7 +25,7 @@
                         class="block w-full"
                         type="email"
                         name="email"
-                        :value="old('email', $request->email)"
+                        :value="old('email', $email)"
                         required
                         autofocus
                     />
