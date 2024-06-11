@@ -24,10 +24,10 @@ class UserController extends Controller
     {
         $search = $request->search;
 
-        $users = Food::where(function ($query) use ($search) {
+        $users = User::where(function ($query) use ($search) {
 
             $query->where('id', 'like', "%$search%")
-            ->orWhere('name','like',"%$search%");
+            ->orWhere('f_name','like',"%$search%");
 
         })->get();
 

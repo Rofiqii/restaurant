@@ -8,7 +8,7 @@ Semua Pengguna - Restorant
             <i class="bx bx-search fs-4 lh-0"></i>
             <form method="GET" action={{ route('searchusers') }}>
                 <input type="text" name="search" class="form-control border-0 shadow-none ps-1 ps-sm-2"
-                    placeholder="Pencarian nomor pesanan..." value="{{ isset($search) ? $search : '' }}" aria-label="Pencarian..." />
+                    placeholder="Pencarian Id atau nama..." value="{{ isset($search) ? $search : '' }}" aria-label="Pencarian..." />
             </form>
         </div>
     </div>

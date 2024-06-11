@@ -1,4 +1,5 @@
 <x-guest-layout>
+    <head> @vite(['resources/css/app.css', 'resources/js/app.js']) </head>
     <x-auth-card>
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
