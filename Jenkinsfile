@@ -1,24 +1,47 @@
 pipeline {
     agent any
+
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/Akmalamilunnizar/restaurant'
+                script {
+                    echo 'Checking out repository...'
+                    git branch: 'main', url: 'https://github.com/Akmalamilunnizar/restaurant'
+                }
             }
         }
+
         stage('Build') {
             steps {
-                echo 'Building...'
+                script {
+                    echo 'Building application...'
+                    // Tambahkan perintah build jika diperlukan, misalnya:
+                    // sh './gradlew build'  (untuk Gradle)
+                    // sh 'mvn package'      (untuk Maven)
+                    // sh 'npm install'      (untuk Node.js)
+                }
             }
         }
+
         stage('Test') {
             steps {
-                echo 'Running tests...'
+                script {
+                    echo 'Running tests...'
+                    // Tambahkan perintah untuk menjalankan unit test
+                    // sh 'npm test'
+                    // sh './gradlew test'
+                }
             }
         }
+
         stage('Deploy') {
             steps {
-                echo 'Deploying...'
+                script {
+                    echo 'Deploying application...'
+                    // Tambahkan perintah untuk deploy ke server atau container
+                    // sh 'scp target/app.jar user@server:/path/to/deploy'
+                    // sh 'docker-compose up -d'
+                }
             }
         }
     }
