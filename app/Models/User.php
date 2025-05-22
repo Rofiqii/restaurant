@@ -3,17 +3,22 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Auth\Authenticatable as AuthenticableTrait;
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+
+use Laravel\Passport\HasApiTokens;
 use Laratrust\Contracts\LaratrustUser;
 use Laratrust\Traits\HasRolesAndPermissions;
 
 
-class User extends Authenticatable implements LaratrustUser
+class User extends Authenticatable implements CanResetPasswordContract
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRolesAndPermissions;
+    use HasApiTokens, HasFactory, Notifiable, HasRolesAndPermissions, CanResetPassword, AuthenticableTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -21,9 +26,12 @@ class User extends Authenticatable implements LaratrustUser
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'f_name',
+        'username',
+        'phone',
         'email',
         'password',
+        'email_verified_at'
     ];
 
     /**
@@ -42,7 +50,23 @@ class User extends Authenticatable implements LaratrustUser
      * @var array<string, string>
      */
     protected $casts = [
+        'id' => 'integer',
+        'user_id' => 'integer',
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function orderss()
+    {
+        return $this->hasMany(Order::class, 'user_id');
+    }
+
+    public function role()
+    {
+        return $this->hasMany(Role::class, 'user_id');
+    }
+    // public function users()
+    // {
+    //     return $this->belongsTo(Order::class,'user_id', 'id');
+    // }
 }
