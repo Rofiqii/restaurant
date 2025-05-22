@@ -1,108 +1,124 @@
-name: Deploy Laravel to VPS
+#!/bin/bash
+# deploy.sh - Manual deployment script
 
-on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+echo "🚀 Starting deployment..."
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: false
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: restaurant_test
-        ports:
-          - 3306/tcp
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+# Pull latest changes
+echo "📥 Pulling latest changes from GitHub..."
+git pull origin main
 
-    steps:
-    - uses: actions/checkout@v3
+# Build and start containers
+echo "🐳 Building and starting Docker containers..."
+docker-compose down
+docker-compose up -d --build
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.2'
-        extensions: mbstring, dom, fileinfo, mysql, zip, gd
-        coverage: none
+# Wait for services to be ready
+echo "⏳ Waiting for services to start..."
+sleep 30
 
-    - name: Copy .env
-      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+# Run Laravel commands
+echo "🎯 Running Laravel commands..."
+docker-compose exec -T app php artisan config:cache
+docker-compose exec -T app php artisan route:cache
+docker-compose exec -T app php artisan view:cache
+docker-compose exec -T app php artisan migrate --force
 
-    - name: Install Dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+# Restart containers to ensure everything is fresh
+echo "🔄 Restarting containers..."
+docker-compose restart
 
-    - name: Generate key
-      run: php artisan key:generate
+echo "✅ Deployment completed successfully!"
+echo "🌐 Application is available at: http://159.223.47.2"
 
-    - name: Directory Permissions
-      run: chmod -R 755 storage bootstrap/cache
+---
 
-    - name: Create Database
-      run: |
-        mkdir -p database
-        touch database/database.sqlite
+#!/bin/bash
+# setup-vps.sh - Initial VPS setup script
 
-    - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
-      env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
-      run: php artisan test
+echo "🔧 Setting up VPS for Laravel deployment..."
 
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+# Update system
+echo "📦 Updating system packages..."
+apt update && apt upgrade -y
 
-    steps:
-    - name: Deploy to VPS
-      uses: appleboy/ssh-action@v0.1.5
-      with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.VPS_USER }}
-        key: ${{ secrets.VPS_SSH_KEY }}
-        script: |
-          cd /var/www/restaurant
-          
-          # Pull latest changes
-          git pull origin main
-          
-          # Create .env from secrets if not exists
-          if [ ! -f .env ]; then
-            cp .env.example .env
-            echo "APP_KEY=${{ secrets.APP_KEY }}" >> .env
-            echo "DB_CONNECTION=mysql" >> .env
-            echo "DB_HOST=db" >> .env
-            echo "DB_PORT=3306" >> .env
-            echo "DB_DATABASE=restaurant_db" >> .env
-            echo "DB_USERNAME=restaurant_user" >> .env
-            echo "DB_PASSWORD=password" >> .env
-            echo "REDIS_HOST=redis" >> .env
-            echo "REDIS_PASSWORD=null" >> .env
-            echo "REDIS_PORT=6379" >> .env
-          fi
-          
-          # Stop existing containers
-          docker-compose down
-          
-          # Rebuild and start containers
-          docker-compose up -d --build
-          
-          # Wait for database to be ready
-          sleep 30
-          
-          # Run Laravel commands
-          docker-compose exec -T app php artisan config:cache
-          docker-compose exec -T app php artisan route:cache
-          docker-compose exec -T app php artisan view:cache
-          docker-compose exec -T app php artisan migrate --force
-          
-          # Restart services
-          docker-compose restart
-          
-          echo "Deployment completed successfully!"
+# Install Docker
+echo "🐳 Installing Docker..."
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+rm get-docker.sh
+
+# Install Docker Compose
+echo "🔨 Installing Docker Compose..."
+apt install docker-compose -y
+
+# Install Git
+echo "📚 Installing Git..."
+apt install git -y
+
+# Install other useful tools
+echo "🛠️ Installing additional tools..."
+apt install htop curl wget unzip -y
+
+# Create application directory
+echo "📁 Creating application directory..."
+mkdir -p /var/www/restaurant
+cd /var/www/restaurant
+
+# Clone repository
+echo "📥 Cloning repository..."
+git clone https://github.com/Rofiqii/restaurant.git .
+
+# Set permissions
+echo "🔐 Setting permissions..."
+chmod -R 755 storage bootstrap/cache
+chown -R www-data:www-data storage bootstrap/cache
+
+# Create .env file
+echo "⚙️ Creating environment file..."
+cp .env.example .env
+
+# Setup firewall
+echo "🔥 Configuring firewall..."
+ufw allow ssh
+ufw allow 80
+ufw allow 443
+ufw allow 8000
+ufw allow 3000  # Grafana
+ufw allow 3001  # Uptime Kuma
+ufw --force enable
+
+echo "✅ VPS setup completed!"
+echo "🔗 Next steps:"
+echo "1. Update GitHub Secrets with your SSH key"
+echo "2. Push your code to trigger GitHub Actions"
+echo "3. Visit http://159.223.47.2:8000 to see your application"
+
+---
+
+#!/bin/bash
+# health-check.sh - Application health check script
+
+echo "🏥 Performing health check..."
+
+# Check if containers are running
+echo "🐳 Checking Docker containers..."
+docker-compose ps
+
+# Check application response
+echo "🌐 Checking application response..."
+curl -f http://localhost:8000 >/dev/null 2>&1
+if [ $? -eq 0 ]; then
+    echo "✅ Application is responding"
+else
+    echo "❌ Application is not responding"
+fi
+
+# Check database connection
+echo "🗄️ Checking database connection..."
+docker-compose exec -T app php artisan migrate:status
+
+# Check logs for errors
+echo "📋 Checking for recent errors..."
+docker-compose logs --tail=20 app | grep -i error
+
+echo "🏥 Health check completed!"
