@@ -17,6 +17,10 @@ services:
       - restaurant-network
     command: >
       sh -c "
+        composer install &&
+        php artisan config:clear &&
+        php artisan cache:clear &&
+        php artisan key:generate &&
         php artisan migrate --force &&
         php artisan db:seed --force &&
         php-fpm
