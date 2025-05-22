@@ -7,6 +7,57 @@ on:
     branches: [ main, master ]
 
 jobs:
+deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+
+    steps:
+    - name: Deploy to VPS
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USER }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        script: |
+          cd /var/www/restaurant
+          
+          # Pull latest changes
+          git pull origin main
+          
+          # Create .env from secrets if not exists
+          if [ ! -f .env ]; then
+            cp .env.example .env
+            echo "APP_KEY=${{ secrets.APP_KEY }}" >> .env
+            echo "DB_CONNECTION=mysql" >> .env
+            echo "DB_HOST=db" >> .env
+            echo "DB_PORT=3306" >> .env
+            echo "DB_DATABASE=restaurant_db" >> .env
+            echo "DB_USERNAME=restaurant_user" >> .env
+            echo "DB_PASSWORD=password" >> .env
+            echo "REDIS_HOST=redis" >> .env
+            echo "REDIS_PASSWORD=null" >> .env
+            echo "REDIS_PORT=6379" >> .env
+          fi
+          
+          # Stop existing containers
+          docker-compose down
+          
+          # Rebuild and start containers
+          docker-compose up -d --build
+          
+          # Wait for database to be ready
+          sleep 30
+          
+          # Run Laravel commands
+          docker-compose exec -T app php artisan config:cache
+          docker-compose exec -T app php artisan route:cache
+          docker-compose exec -T app php artisan view:cache
+          docker-compose exec -T app php artisan migrate --force
+          
+          # Restart services
+          docker-compose restart
+          
+          echo "Deployment completed successfully!"
   test:
     runs-on: ubuntu-latest
     
@@ -66,55 +117,4 @@ jobs:
         DB_DATABASE: database/database.sqlite
       run: php artisan test
 
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-
-    steps:
-    - name: Deploy to VPS
-      uses: appleboy/ssh-action@v0.1.5
-      with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.VPS_USER }}
-        key: ${{ secrets.VPS_SSH_KEY }}
-        script: |
-          cd /var/www/restaurant
-          
-          # Pull latest changes
-          git pull origin main
-          
-          # Create .env from secrets if not exists
-          if [ ! -f .env ]; then
-            cp .env.example .env
-            echo "APP_KEY=${{ secrets.APP_KEY }}" >> .env
-            echo "DB_CONNECTION=mysql" >> .env
-            echo "DB_HOST=db" >> .env
-            echo "DB_PORT=3306" >> .env
-            echo "DB_DATABASE=restaurant_db" >> .env
-            echo "DB_USERNAME=restaurant_user" >> .env
-            echo "DB_PASSWORD=password" >> .env
-            echo "REDIS_HOST=redis" >> .env
-            echo "REDIS_PASSWORD=null" >> .env
-            echo "REDIS_PORT=6379" >> .env
-          fi
-          
-          # Stop existing containers
-          docker-compose down
-          
-          # Rebuild and start containers
-          docker-compose up -d --build
-          
-          # Wait for database to be ready
-          sleep 30
-          
-          # Run Laravel commands
-          docker-compose exec -T app php artisan config:cache
-          docker-compose exec -T app php artisan route:cache
-          docker-compose exec -T app php artisan view:cache
-          docker-compose exec -T app php artisan migrate --force
-          
-          # Restart services
-          docker-compose restart
-          
-          echo "Deployment completed successfully!"
+  
