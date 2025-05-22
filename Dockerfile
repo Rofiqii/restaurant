@@ -26,4 +26,8 @@ COPY . .
 
 RUN composer install
 
+COPY start.sh /var/www/start.sh
+
+CMD ["sh", "/var/www/start.sh"]
+
 CMD ["php-fpm"]
